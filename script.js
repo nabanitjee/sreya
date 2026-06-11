@@ -1,31 +1,59 @@
-let shuffleInterval; // Store the timer so we can start/stop it
+let shuffleInterval;
 let positions = ['pos-1', 'pos-2', 'pos-3'];
+const audio = document.getElementById('bg-music');
+
+// Attempt to play audio as soon as page loads (Browsers might block this until click)
+window.onload = function() {
+    audio.play().catch(e => console.log("Browser blocked autoplay. Will play on first click."));
+};
+
+// Audio Control Button
+function toggleAudio() {
+    const btn = document.getElementById('audio-control');
+    if (audio.paused) {
+        audio.play();
+        btn.innerText = '🔊';
+    } else {
+        audio.pause();
+        btn.innerText = '🔇';
+    }
+}
 
 function goToStep(stepNumber) {
-    // Hide all steps smoothly
+    // Make sure audio is playing once user interacts
+    if (audio.paused) {
+        audio.play().catch(e => console.log("Audio play failed"));
+        document.getElementById('audio-control').innerText = '🔊';
+    }
+
     document.querySelectorAll('.step-container').forEach(step => {
         step.classList.remove('active');
-        setTimeout(() => step.classList.add('hidden'), 600); // Wait for fade out
+        setTimeout(() => step.classList.add('hidden'), 600);
     });
 
-    // Handle music play on first interaction
     if (stepNumber === 2) {
-        const audio = document.getElementById('bg-music');
-        audio.play().catch(e => console.log("Audio play failed/blocked"));
+        setTimeout(() => {
+            // Start typing effect for the first message
+            typeWriter('source1', 'type1', () => {
+                // When finished, show the second title and start typing the second message
+                document.getElementById('title2').classList.remove('hidden');
+                setTimeout(() => {
+                    typeWriter('source2', 'type2', () => {
+                        // Show the final button when all typing is done
+                        document.getElementById('btn2').classList.remove('hidden');
+                    });
+                }, 500);
+            });
+        }, 1000); // Start typing 1 second after entering step 2
     }
     
-    // Handle Step 3 Specifics
     if (stepNumber === 3) {
-        setTimeout(launchConfetti, 300); // Fire confetti on entry
-        
-        // Start Idea 3: The Passive Shuffle (Every 3.5 seconds)
+        setTimeout(launchConfetti, 300);
         startPhotoShuffle();
     } else {
-        // Stop shuffle if we leave step 3 (paranoia check)
         if(shuffleInterval) clearInterval(shuffleInterval);
     }
 
-    // Show the targeted step smoothly
     setTimeout(() => {
         const nextStep = document.getElementById('step' + stepNumber);
         nextStep.classList.remove('hidden');
@@ -33,24 +61,40 @@ function goToStep(stepNumber) {
     }, 600);
 }
 
-// Logic for Idea 3: Drifting & Shuffling
+// Live Typing Effect
+function typeWriter(sourceId, targetId, callback) {
+    const text = document.getElementById(sourceId).innerHTML;
+    const target = document.getElementById(targetId);
+    target.innerHTML = ''; // Clear target
+    let i = 0;
+    
+    function type() {
+        if (i < text.length) {
+            target.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 40); // Typing speed
+        } else {
+            target.classList.remove('typing-target'); // Remove blinking cursor
+            if (callback) callback();
+        }
+    }
+    type();
+}
+
+// Ultra Smooth Shuffle Logic
 function startPhotoShuffle() {
     const photos = document.querySelectorAll('.polaroid');
-    if (shuffleInterval) clearInterval(shuffleInterval); // Clear old timer if any
+    if (shuffleInterval) clearInterval(shuffleInterval);
     
-    // Shuffle logic (Passive loop)
     shuffleInterval = setInterval(() => {
-        // Move the last element of the positions array to the start
         positions.unshift(positions.pop()); 
-        
-        // Reassign the updated positions classes to the photos
         photos.forEach((photo, index) => {
             photo.className = 'polaroid ' + positions[index];
         });
-    }, 3500); 
+    }, 4000); // Fires every 4 seconds, matching the 2.5s transition beautifully
 }
 
-// Custom Confetti Generator for Step 3
+// Confetti Engine
 function launchConfetti() {
     const container = document.getElementById('confetti-canvas');
     const colors = ['#ff007f', '#ffbf00', '#00f0ff', '#ffffff'];
@@ -58,22 +102,16 @@ function launchConfetti() {
     for (let i = 0; i < 75; i++) {
         let conf = document.createElement('div');
         conf.classList.add('confetti-piece');
-        
-        // Randomize properties
         conf.style.left = Math.random() * 100 + 'vw';
         conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         conf.style.top = '-10px';
-        
-        // Randomize animation
         let duration = Math.random() * 3 + 2;
         let delay = Math.random() * 2;
-        
         conf.style.animation = `fall ${duration}s linear ${delay}s forwards`;
         container.appendChild(conf);
     }
 }
 
-// Inject keyframes for confetti dynamically
 const style = document.createElement('style');
 style.innerHTML = `
 @keyframes fall {
