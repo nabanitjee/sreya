@@ -1,0 +1,6 @@
+body { background: #121212; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; text-align: center; }
+.stage { display: none; padding: 100px 20px; }
+.active { display: block; animation: fadeIn 1s; }
+img { width: 250px; border-radius: 10px; margin: 15px; border: 2px solid #e91e63; }
+button { padding: 12px 25px; font-size: 16px; background: #e91e63; color: white; border: none; cursor: pointer; border-radius: 20px; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
