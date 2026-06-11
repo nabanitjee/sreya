@@ -3,32 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sreya's Birthday Journey</title>
+    <title>For Sreya's 19th</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <audio id="bg-music" src="music.mp3" autoplay loop></audio>
     <div id="audio-control" onclick="toggleAudio()">🔊</div>
 
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
     <div id="step1" class="step-container active">
-        <div class="ambient-glow"></div>
         <div class="content-wrapper text-center">
-            <h1 class="cinematic-title">Hey <span class="accent-pk">Sreya!</span></h1>
-            <p class="subtitle">Turning 19 • October 7th</p>
+            <h1 class="cinematic-title">Happy Birthday <br><span class="accent-pk">Sreya</span></h1>
             
-            <div class="fantastic-cake-container">
-                <div class="cake">
-                    <div class="number-19">19</div>
-                    <div class="candle c1"><div class="flame"></div></div>
-                    <div class="candle c2"><div class="flame"></div></div>
-                    <div class="tier t3"></div>
-                    <div class="tier t2"></div>
-                    <div class="tier t1"></div>
+            <div class="elegant-cake-container">
+                <div class="cake-3d">
+                    <div class="candle-19">
+                        <div class="flame"></div>
+                        19
+                    </div>
+                    
+                    <div class="tier tier-top"></div>
+                    <div class="tier tier-middle">
+                        <span class="cake-text">Sreya</span>
+                    </div>
+                    <div class="tier tier-bottom"></div>
+                    
+                    <div class="cake-plate"></div>
+                    <div class="cake-base"></div>
                 </div>
             </div>
             
-            <button class="premium-btn mt-30" onclick="goToStep(2)">Light the Candle & Enter 🎉</button>
+            <button class="premium-btn mt-30" onclick="goToStep(2)">Start the Celebration ✨</button>
         </div>
     </div>
 
@@ -44,6 +52,7 @@
             
             <button class="premium-btn mt-30 w-100 hidden" id="btn2" onclick="goToStep(3)">Open Memory Vault 📸</button>
         </div>
+        
         <div class="hidden" id="source1">They say the human brain fully develops at 25... So technically, you're still a minor in brain years, right? 😉</div>
         <div class="hidden" id="source2">HAPPY BIRTHDAY! You're incredible, and I just wanted to remind you how lucky you are to have a friend like me to build this custom experience for you. You deserve all the happiness this year!</div>
     </div>
@@ -51,7 +60,7 @@
     <div id="step3" class="step-container hidden">
         <div id="confetti-canvas"></div>
         <div class="content-wrapper text-center w-100">
-            <h2 class="cinematic-title mb-20 accent-pk">Memory Vault</h2>
+            <h2 class="cinematic-title mb-20 accent-pk" style="font-size: 3rem;">Memory Vault</h2>
             
             <div class="polaroid-gallery" id="photo-gallery">
                 <div class="polaroid pos-1"><img src="photo1.jpg" alt="Memory 1"></div>
