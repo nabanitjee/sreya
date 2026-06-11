@@ -8,31 +8,39 @@
 </head>
 <body>
 
-    <div class="card" id="step1">
+    <div class="bg-glow"></div>
+
+    <div class="card active" id="card1">
         <h1>Hey Sreya...</h1>
-        <p>You’re finally 19. Officially too old to be my partner in crime, but I guess I'll make an exception.</p>
-        <button onclick="next(2)">See more</button>
+        <p>I heard that turning 19 means you're officially too old to be a chaotic menace. But don't worry, I'm sure you can make an exception for me. 😉</p>
+        <button onclick="nextCard(2)">See more</button>
     </div>
 
-    <div class="card hidden" id="step2">
+    <div class="card hidden" id="card2">
         <h1>The Birthday Truth</h1>
-        <p>I’m leaving for JEE prep soon, so consider this your digital hug from me before I disappear into the books. 😉</p>
-        <button onclick="next(3)">Next</button>
+        <p>Honestly? I just wanted to remind you how lucky you are to have a friend as amazing as me to wish you. Just sayin'.</p>
+        <button onclick="nextCard(3)">Next</button>
     </div>
 
-    <div class="card hidden" id="step3">
+    <div class="card hidden" id="card3">
+        <h1>Happy 19th Birthday, Sreya! 🎂</h1>
+        <p>Wishing you the best year yet. Study hard, eat lots of cake, and don't miss me too much while I'm off battling my way through JEE prep!</p>
+        <button onclick="nextCard(4)">See our pics</button>
+    </div>
+
+    <div class="card hidden" id="card4">
         <h1>Memory Lane</h1>
         <div class="gallery">
-            <img src="photo1.jpg" alt="pic">
-            <img src="photo2.jpg" alt="pic">
+            <img src="photo1.jpg" alt="Memory 1">
+            <img src="photo2.jpg" alt="Memory 2">
         </div>
-        <p>Proof that we've survived this long.</p>
-        <button onclick="next(4)">Final wish</button>
+        <p>Study motivation?</p>
+        <button onclick="nextCard(5)">One final thing</button>
     </div>
 
-    <div class="card hidden" id="step4">
-        <h1>Happy 19th!</h1>
-        <p>Keep being the amazing person you are. See you on the other side of JEE!</p>
+    <div class="card hidden" id="card5">
+        <h1>Until I'm back!</h1>
+        <p>I'll be busy with JEE, but consider this wish as my digital hug before I disappear into the books. Stay amazing, and I'll see you on the other side!</p>
     </div>
 
     <script src="script.js"></script>
