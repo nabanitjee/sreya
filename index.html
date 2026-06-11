@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy 19th Sreya!</title>
+    <title>Sreya's Birthday Journey</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 </head>
 <body>
     <audio id="bg-music" src="music.mp3" loop></audio>
@@ -13,22 +13,34 @@
     <div id="step1" class="step-container active">
         <div class="ambient-glow"></div>
         <div class="content-wrapper text-center">
-            <h1 class="cinematic-title">Happy 19th <br><span class="highlight">Sreya!</span></h1>
-            <p class="subtitle">October 7th • The Magic Begins</p>
-            <div class="floating-cake">🎂</div>
+            <h1 class="cinematic-title">Hey <span class="accent-pk">Sreya!</span></h1>
+            <p class="subtitle">Turning 19 • october 7th</p>
+            
+            <div class="fantastic-cake-container">
+                <div class="cake">
+                    <div class="number-19">19</div>
+                    
+                    <div class="candle c1"><div class="flame"></div></div>
+                    <div class="candle c2"><div class="flame"></div></div>
+                    
+                    <div class="tier t3"></div>
+                    <div class="tier t2"></div>
+                    <div class="tier t1"></div>
+                </div>
+            </div>
             <button class="premium-btn mt-30" onclick="goToStep(2)">Light the Candle & Enter 🎉</button>
         </div>
     </div>
 
     <div id="step2" class="step-container hidden">
         <div class="glass-panel">
-            <h2 class="accent-title">Wait, 19? 🤦‍♀️</h2>
-            <p class="chat-text">They say the human brain fully develops at 25. So technically, you're still a minor in brain years, right? 😉</p>
+            <h2 class="accent-title accent-pp">Wait, 19? 🤦‍♀️</h2>
+            <p class="chat-text">They say the human brain fully develops at 25... So technically, you're still a minor in brain years, right? 😉</p>
             
             <hr class="divider">
             
-            <h2 class="accent-title highlight-alt">The Real Truth</h2>
-            <p class="chat-text">Jokes aside, HAPPY BIRTHDAY! You're incredible, and I just wanted to remind you how lucky you are to have a friend like me to build this for you. I hope this year brings you all the joy, success, and chaos you deserve!</p>
+            <h2 class="accent-title accent-pk">The Real Truth</h2>
+            <p class="chat-text">HAPPY BIRTHDAY! You're incredible, and I just wanted to remind you how lucky you are to have a friend like me to build this custom experience for you. You deserve all the happiness this year!</p>
             
             <button class="premium-btn mt-30 w-100" onclick="goToStep(3)">Open Memory Vault 📸</button>
         </div>
@@ -37,21 +49,21 @@
     <div id="step3" class="step-container hidden">
         <div id="confetti-canvas"></div>
         <div class="content-wrapper text-center w-100">
-            <h2 class="cinematic-title mb-20">Memory Vault</h2>
+            <h2 class="cinematic-title mb-20 accent-pk">Memory Vault</h2>
             
-            <div class="polaroid-gallery">
-                <div class="polaroid frame-left">
+            <div class="polaroid-gallery" id="photo-gallery">
+                <div class="polaroid pos-1">
                     <img src="photo1.jpg" alt="Memory 1">
                 </div>
-                <div class="polaroid frame-right">
+                <div class="polaroid pos-2">
                     <img src="photo2.jpg" alt="Memory 2">
                 </div>
-                <div class="polaroid frame-center">
+                <div class="polaroid pos-3">
                     <img src="photo3.jpg" alt="Memory 3">
                 </div>
             </div>
 
-            <p class="final-wish mt-30">Have some class and make this year incredible! 🥂</p>
+            <p class="final-wish mt-30 final-final">Have some class and make this year incredible! 🥂</p>
         </div>
     </div>
 
