@@ -1,47 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
+:root { --pk: #ff007f; --pp: #7b00ff; --bl: #33ffd8; }
+body { margin: 0; background: #050505; color: white; font-family: 'Outfit', sans-serif; }
 
-body {
-    margin: 0;
-    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-}
-
-.chat-container {
-    width: 90%;
-    max-width: 400px;
-    padding: 20px;
+/* --- PREMIUM INTRO STYLES --- */
+#intro-view {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 50%, #240b36 0%, #050505 80%);
+    text-align: center;
+    padding: 20px;
 }
 
-/* The Bubble Style */
-.bubble {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 15px;
-    border-radius: 20px;
-    animation: popIn 0.5s ease-out forwards;
+.glow-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 20px #ff007f, 0 0 40px #7b00ff;
+    margin-bottom: 30px;
 }
 
-@keyframes popIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
+.cake-visual {
+    font-size: 120px;
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+    animation: bounce 2s infinite ease-in-out;
 }
 
-.hidden { display: none; }
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
 
-button {
-    background: #ff007f;
-    border: none;
-    padding: 12px;
+.main-btn {
+    background: linear-gradient(45deg, #ff007f, #7b00ff);
     color: white;
-    border-radius: 25px;
+    border: none;
+    padding: 20px 40px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
+    box-shadow: 0 10px 30px rgba(255, 0, 127, 0.4);
+    transition: transform 0.3s;
 }
+
+.main-btn:hover { transform: scale(1.05); }
+
+/* --- CONTENT VIEW STYLES --- */
+.view { transition: opacity 0.5s; }
+.hidden { display: none !important; }
+.phone-frame { width: 375px; margin: 20px auto; padding: 20px; background: #07090f; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); }
+.glass-box { background: rgba(255,255,255,0.04); backdrop-filter: blur(25px); border-radius: 20px; padding: 25px; margin-bottom: 20px; }
+.chat-bubble { border-left: 2px solid; padding-left: 15px; margin-bottom: 20px; }
+.bl-acc { border-color: var(--bl); } .pk-acc { border-color: var(--pk); } .pp-acc { border-color: var(--pp); }
+.memories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.photo-card img { width: 100%; border-radius: 10px; aspect-ratio: 1/1; object-fit: cover; }
