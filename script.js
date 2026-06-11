@@ -1,4 +1,4 @@
-function next(id) {
-    document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
-    document.getElementById('s' + id).classList.add('active');
+function next(step) {
+    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+    document.getElementById('step' + step).classList.remove('hidden');
 }
