@@ -1,80 +1,47 @@
-/* Imports a clean, modern font that matches the premium look */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap');
 
 body {
     margin: 0;
-    padding: 0;
-    font-family: 'Outfit', sans-serif;
-    /* Sets up a deep dark background to make the glass pop */
-    background: #0b0d12;
+    background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
     color: white;
+    font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
     min-height: 100vh;
-    overflow: hidden;
 }
 
-/* Glassmorphism Card Style */
-.card {
-    background: rgba(255, 255, 255, 0.04);
-    /* The critical part: Frosted glass blur! */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    /* A subtle glowing border */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    border-radius: 30px;
-    width: 85%;
+.chat-container {
+    width: 90%;
     max-width: 400px;
-    text-align: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
-    /* Adds the smooth fade-in entrance animation! */
-    animation: fadeIn 0.8s ease-out;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Definition for the fade-in animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.card.hidden { display: none; }
-.card.active { display: block; }
-
-/* Styles the h1 with a premium gradient text effect */
-h1 {
-    font-weight: 600;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    background: linear-gradient(to right, #ff007f, #7b00ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-p { font-weight: 300; line-height: 1.6; font-size: 1rem; color: #d0d0d0; }
-
-/* A minimal button style to match the UI */
-button {
-    background: rgba(255, 255, 255, 0.08);
-    color: white;
+/* The Bubble Style */
+.bubble {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 12px 30px;
-    border-radius: 50px;
-    cursor: pointer;
-    margin-top: 25px;
-    font-weight: 600;
-    transition: background 0.3s, transform 0.2s;
+    padding: 15px;
+    border-radius: 20px;
+    animation: popIn 0.5s ease-out forwards;
 }
 
-button:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.05); }
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
 
-/* Basic gallery layout for photo step */
-.gallery img {
-    width: 100px;
-    height: 100px;
-    border-radius: 20px;
-    object-fit: cover;
-    margin: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+.hidden { display: none; }
+
+button {
+    background: #ff007f;
+    border: none;
+    padding: 12px;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
 }
