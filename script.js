@@ -1,3 +1,6 @@
+let shuffleInterval; // Store the timer so we can start/stop it
+let positions = ['pos-1', 'pos-2', 'pos-3'];
+
 function goToStep(stepNumber) {
     // Hide all steps smoothly
     document.querySelectorAll('.step-container').forEach(step => {
@@ -5,24 +8,46 @@ function goToStep(stepNumber) {
         setTimeout(() => step.classList.add('hidden'), 600); // Wait for fade out
     });
 
-    // Handle specific step logic
+    // Handle music play on first interaction
     if (stepNumber === 2) {
-        // Play music on first interaction
         const audio = document.getElementById('bg-music');
         audio.play().catch(e => console.log("Audio play failed/blocked"));
     }
     
+    // Handle Step 3 Specifics
     if (stepNumber === 3) {
-        setTimeout(launchConfetti, 300); // Fire confetti when entering vault
+        setTimeout(launchConfetti, 300); // Fire confetti on entry
+        
+        // Start Idea 3: The Passive Shuffle (Every 3.5 seconds)
+        startPhotoShuffle();
+    } else {
+        // Stop shuffle if we leave step 3 (paranoia check)
+        if(shuffleInterval) clearInterval(shuffleInterval);
     }
 
-    // Show the targeted step
+    // Show the targeted step smoothly
     setTimeout(() => {
         const nextStep = document.getElementById('step' + stepNumber);
         nextStep.classList.remove('hidden');
-        // Slight delay to allow display block to apply before fading in
         setTimeout(() => nextStep.classList.add('active'), 50);
     }, 600);
+}
+
+// Logic for Idea 3: Drifting & Shuffling
+function startPhotoShuffle() {
+    const photos = document.querySelectorAll('.polaroid');
+    if (shuffleInterval) clearInterval(shuffleInterval); // Clear old timer if any
+    
+    // Shuffle logic (Passive loop)
+    shuffleInterval = setInterval(() => {
+        // Move the last element of the positions array to the start
+        positions.unshift(positions.pop()); 
+        
+        // Reassign the updated positions classes to the photos
+        photos.forEach((photo, index) => {
+            photo.className = 'polaroid ' + positions[index];
+        });
+    }, 3500); 
 }
 
 // Custom Confetti Generator for Step 3
