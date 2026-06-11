@@ -7,34 +7,32 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="card" id="step1">
         <h1>Hey Sreya...</h1>
-        <button onclick="next(2)">Open Gift</button>
+        <p>You’re finally 19. Officially too old to be my partner in crime, but I guess I'll make an exception.</p>
+        <button onclick="next(2)">See more</button>
     </div>
-    
-    <!-- Steps 2 through 5 follow the same structure -->
+
     <div class="card hidden" id="step2">
-        <p>19 years later and you're still not an adult. 😜</p>
+        <h1>The Birthday Truth</h1>
+        <p>I’m leaving for JEE prep soon, so consider this your digital hug from me before I disappear into the books. 😉</p>
         <button onclick="next(3)">Next</button>
     </div>
-    
+
     <div class="card hidden" id="step3">
-        <p>I was going to get you a gift, but then I remembered my presence is clearly the best thing that ever happened to you.</p>
-        <button onclick="next(4)">More</button>
-    </div>
-    
-    <div class="card hidden" id="step4">
+        <h1>Memory Lane</h1>
         <div class="gallery">
-            <img src="photo1.jpg" alt="Memory">
-            <img src="photo2.jpg" alt="Memory">
-            <img src="photo3.jpg" alt="Memory">
+            <img src="photo1.jpg" alt="pic">
+            <img src="photo2.jpg" alt="pic">
         </div>
-        <button onclick="next(5)">Final Wish</button>
+        <p>Proof that we've survived this long.</p>
+        <button onclick="next(4)">Final wish</button>
     </div>
-    
-    <div class="card hidden" id="step5">
-        <h1>Happy Birthday Sreya! 🎂</h1>
-        <p>I'll be busy with JEE, but don't think you can get rid of me that easily!</p>
+
+    <div class="card hidden" id="step4">
+        <h1>Happy 19th!</h1>
+        <p>Keep being the amazing person you are. See you on the other side of JEE!</p>
     </div>
 
     <script src="script.js"></script>
