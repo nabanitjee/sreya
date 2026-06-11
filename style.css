@@ -1,6 +1,20 @@
-body { background: #121212; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; text-align: center; }
-.stage { display: none; padding: 100px 20px; }
-.active { display: block; animation: fadeIn 1s; }
-img { width: 250px; border-radius: 10px; margin: 15px; border: 2px solid #e91e63; }
-button { padding: 12px 25px; font-size: 16px; background: #e91e63; color: white; border: none; cursor: pointer; border-radius: 20px; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+body { 
+    background: #0b0e14; color: white; font-family: 'Poppins', sans-serif;
+    display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0;
+}
+.card { 
+    background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+    padding: 40px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 80%; max-width: 400px; text-align: center;
+    transition: transform 0.5s ease;
+}
+.hidden { display: none; }
+.gallery img { width: 80px; height: 80px; border-radius: 10px; margin: 5px; }
+button { 
+    background: linear-gradient(45deg, #ff007f, #7b00ff);
+    color: white; border: none; padding: 15px 30px; border-radius: 50px; cursor: pointer;
+    margin-top: 20px; transition: 0.3s;
+}
+button:hover { transform: scale(1.05); }
