@@ -1,48 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Sreya</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="bg-glow"></div>
-
-    <div class="card active" id="card1">
-        <h1>Hey Sreya...</h1>
-        <p>I heard that turning 19 means you're officially too old to be a chaotic menace. But don't worry, I'm sure you can make an exception for me. 😉</p>
-        <button onclick="nextCard(2)">See more</button>
-    </div>
-
-    <div class="card hidden" id="card2">
-        <h1>The Birthday Truth</h1>
-        <p>Honestly? I just wanted to remind you how lucky you are to have a friend as amazing as me to wish you. Just sayin'.</p>
-        <button onclick="nextCard(3)">Next</button>
-    </div>
-
-    <div class="card hidden" id="card3">
-        <h1>Happy 19th Birthday, Sreya! 🎂</h1>
-        <p>Wishing you the best year yet. Study hard, eat lots of cake, and don't miss me too much while I'm off battling my way through JEE prep!</p>
-        <button onclick="nextCard(4)">See our pics</button>
-    </div>
-
-    <div class="card hidden" id="card4">
-        <h1>Memory Lane</h1>
-        <div class="gallery">
-            <img src="photo1.jpg" alt="Memory 1">
-            <img src="photo2.jpg" alt="Memory 2">
+    <div class="chat-container">
+        <div class="bubble" id="step1">
+            <h1>Hey Sreya!</h1>
+            <button onclick="show(2)">Start the Magic</button>
         </div>
-        <p>Study motivation?</p>
-        <button onclick="nextCard(5)">One final thing</button>
-    </div>
 
-    <div class="card hidden" id="card5">
-        <h1>Until I'm back!</h1>
-        <p>I'll be busy with JEE, but consider this wish as my digital hug before I disappear into the books. Stay amazing, and I'll see you on the other side!</p>
-    </div>
+        <div class="bubble hidden" id="step2">
+            <p>A LITTLE TEASE ;) <br> Okay, Sreya, you might be 19, but I'm pretty sure you still need adult supervision.</p>
+            <button onclick="show(3)">Next</button>
+        </div>
 
+        <div class="bubble hidden" id="step3">
+            <p>DON'T PANIC! <br> I'm going ghost mode for JEE! But no way I'd miss your big day.</p>
+            <button onclick="show(4)">Final Message</button>
+        </div>
+
+        <div class="bubble hidden" id="step4">
+            <p>HAPPY 19th BIRTHDAY SREYA! <br> You deserve all the happiness!</p>
+            <img src="photo1.jpg" style="width:100%; border-radius:15px;">
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
