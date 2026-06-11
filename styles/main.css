@@ -1,0 +1,12 @@
+.view { transition: opacity 0.5s; }
+.hidden { display: none; opacity: 0; }
+
+/* Cake Animation */
+.cake-visual { font-size: 80px; animation: float 3s infinite ease-in-out; margin: 40px; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+/* Confetti Effect Container */
+.confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Ensure the phone-frame remains the focus in view 2 */
+.phone-frame { width: 375px; height: 750px; background: #000; border-radius: 40px; margin: auto; }
