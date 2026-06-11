@@ -1,30 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreya's Birthday</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap');
+
+        body {
+            margin: 0; background: #050505; color: white;
+            font-family: 'Outfit', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+        }
+
+        .slide {
+            width: 85%; max-width: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 40px; border-radius: 30px;
+            text-align: center; border: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute; animation: fadeIn 0.6s ease;
+        }
+
+        .hidden { display: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; } }
+
+        .pro-frame {
+            background: white; padding: 10px; margin: 20px auto;
+            width: 200px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        
+        button {
+            background: #ff007f; color: white; border: none;
+            padding: 12px 30px; border-radius: 50px; cursor: pointer; margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="bubble" id="step1">
-            <h1>Hey Sreya!</h1>
-            <button onclick="show(2)">Start the Magic</button>
-        </div>
 
-        <div class="bubble hidden" id="step2">
-            <p>A LITTLE TEASE ;) <br> Okay, Sreya, you might be 19, but I'm pretty sure you still need adult supervision.</p>
-            <button onclick="show(3)">Next</button>
-        </div>
-
-        <div class="bubble hidden" id="step3">
-            <p>DON'T PANIC! <br> I'm going ghost mode for JEE! But no way I'd miss your big day.</p>
-            <button onclick="show(4)">Final Message</button>
-        </div>
-
-        <div class="bubble hidden" id="step4">
-            <p>HAPPY 19th BIRTHDAY SREYA! <br> You deserve all the happiness!</p>
-            <img src="photo1.jpg" style="width:100%; border-radius:15px;">
-        </div>
+    <div class="slide" id="s1">
+        <h1>Hey Sreya...</h1>
+        <p>Turning 19, are we? You're officially old enough to know better, but young enough to keep being a menace. 😉</p>
+        <button onclick="next(2)">Click to continue</button>
     </div>
-    <script src="script.js"></script>
+
+    <div class="slide hidden" id="s2">
+        <h1>The Birthday Truth</h1>
+        <p>I'm heading off-grid for JEE, but I couldn't let your big day pass without a proper digital surprise. You're lucky I'm a tech-wizard.</p>
+        <button onclick="next(3)">See Memories</button>
+    </div>
+
+    <div class="slide hidden" id="s3">
+        <h1>Memory Lane</h1>
+        <div class="pro-frame"><img src="photo1.jpg" width="100%"></div>
+        <p>Proof that we've survived this long.</p>
+        <button onclick="next(4)">Final Message</button>
+    </div>
+
+    <div class="slide hidden" id="s4">
+        <h1>Happy 19th!</h1>
+        <p>Keep shining, Sreya. Don't cause too much trouble while I'm away. I'll be back to celebrate soon!</p>
+    </div>
+
+    <script>
+        function next(id) {
+            document.querySelectorAll('.slide').forEach(s => s.classList.add('hidden'));
+            document.getElementById('s' + id).classList.remove('hidden');
+        }
+    </script>
 </body>
 </html>
