@@ -3,25 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Sreya</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <title>Sreya's Birthday</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="intro-view" class="view">
-        <div class="cake-container">
-            <h1 class="glow-text">Happy 19th Sreya! 🎉</h1>
-            <div class="cake-visual">🎂</div>
-            <button class="main-btn" onclick="showContent()">Light the Candle & Enter</button>
-        </div>
+        <h1 class="glow-text">Happy 19th Sreya! 🎉</h1>
+        <div class="cake-visual">🎂</div>
+        <button class="main-btn" onclick="showContent()">Light the Candle & Enter</button>
         <audio id="bg-music" src="music.mp3" loop></audio>
     </div>
 
     <div id="content-view" class="view hidden">
         <div class="phone-frame">
-            <div class="screen-content" id="app"></div>
+            <div class="screen-content">
+                <h1 class="main-title">For Sreya's <span class="accent-pk">19th!</span></h1>
+                <div class="glass-box wishes-block">
+                    <h2 class="section-header">Wishes Galore!</h2>
+                    <div class="chat-bubble bl-acc">
+                        <h3 class="message-title">A Little Tease ;) 😒😒</h3>
+                        <p class="message-body">Okay, Sreya, you might be 19, but you still need adult supervision. Have some class and make this year incredible!</p>
+                    </div>
+                    <div class="chat-bubble pk-acc">
+                        <h3 class="message-title">The Real Truth...</h3>
+                        <p class="message-body">You're incredible. You can literally write 1000 lines of CSS to tell you that! 🙂 have some class and keep making me proud.</p>
+                    </div>
+                    <div class="chat-bubble pp-acc">
+                        <h3 class="message-title">The Big 19 🤦🤦</h3>
+                        <p class="message-body">HAPPY BIRTHDAY! I hope this year brings you all the joy and chaos you deserve. This day is purely for you!</p>
+                    </div>
+                </div>
+
+                <div class="glass-box memories-container">
+                    <h2 class="section-header">Memory Vault</h2>
+                    <div class="memories-grid">
+                        <div class="photo-card"><img src="sreya1.jpg" alt="Sreya 1"></div>
+                        <div class="photo-card"><img src="sreya2.jpg" alt="Sreya 2"></div>
+                        <div class="photo-card"><img src="sreya3.jpg" alt="Sreya 3"></div>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button class="main-btn">Wait, MORE?</button>
+                    <button class="main-btn" style="background: linear-gradient(45deg, #ff007f, #7b00ff);">Final Message!</button>
+                </div>
+            </div>
         </div>
     </div>
-
-    <script src="js/app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
