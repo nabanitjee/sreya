@@ -28,16 +28,23 @@ function goToStep(stepNumber) {
         setTimeout(() => step.classList.add('hidden'), 600);
     });
 
+    // Modified Logic: Simultaneous Typing
     if (stepNumber === 2) {
         setTimeout(() => {
-            typeWriter('source1', 'type1', () => {
-                document.getElementById('title2').classList.remove('hidden');
-                setTimeout(() => {
-                    typeWriter('source2', 'type2', () => {
-                        document.getElementById('btn2').classList.remove('hidden');
-                    });
-                }, 500);
-            });
+            let typingCompleted = 0;
+            
+            // This function checks if both texts are done typing
+            const checkDone = () => {
+                typingCompleted++;
+                if (typingCompleted === 2) {
+                    document.getElementById('btn2').classList.remove('hidden');
+                }
+            };
+
+            // Start both at the exact same time
+            typeWriter('source1', 'type1', checkDone);
+            typeWriter('source2', 'type2', checkDone);
+            
         }, 1000);
     }
     
@@ -101,8 +108,19 @@ function launchConfetti() {
         conf.style.animation = `fall ${duration}s linear ${delay}s forwards`;
         container.appendChild(conf);
     }
+    
+    // Automatically clean up old confetti pieces so the browser doesn't lag if they spam the button
+    setTimeout(() => {
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+    }, 6000);
 }
 
-const style = document.createElement('style');
-style.innerHTML = `@keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
-document.head.appendChild(style);
+// Ensure keyframes are injected
+if (!document.getElementById('confetti-styles')) {
+    const style = document.createElement('style');
+    style.id = 'confetti-styles';
+    style.innerHTML = `@keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
+    document.head.appendChild(style);
+}
