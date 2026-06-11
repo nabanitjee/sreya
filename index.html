@@ -2,72 +2,191 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sreya's Birthday</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Sreya's 19th!</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap');
+        /* */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;500;600&family=Playfair+Display:ital,wght@1,600&display=swap');
 
+        :root {
+            --pk-main: #ff007f;
+            --pp-main: #7b00ff;
+            --bl-main: #33ffd8;
+            --bg-dark: #07090f;
+            --txt-white: #ffffff;
+            --txt-gray: #b0b3b8;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-br: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- GLOBAL & BACKGROUND --- */
         body {
-            margin: 0; background: #050505; color: white;
+            margin: 0; padding: 0;
+            background: var(--bg-dark);
+            color: var(--txt-white);
             font-family: 'Outfit', sans-serif;
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; overflow: hidden;
         }
 
-        .slide {
-            width: 85%; max-width: 400px;
+        .phone-frame {
+            position: relative;
+            width: 380px; height: 800px;
+            background: linear-gradient(135deg, #0e1220 0%, #05060a 100%);
+            border-radius: 40px; border: 12px solid #222;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; align-items: center;
+            padding: 20px; box-sizing: border-box;
+            background-image: radial-gradient(circle at 10% 20%, rgba(123, 0, 255, 0.2) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 50%, rgba(255, 0, 127, 0.15) 0%, transparent 40%);
+            overflow-x: hidden;
+        }
+
+        .screen-content {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column; gap: 20px;
+            overflow-y: auto; padding-right: 5px;
+        }
+
+        /* --- TYPOGRAPHY & TEXT EFFECTS --- */
+        h1.main-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic; font-weight: 600; font-size: 28px;
+            text-align: center; margin: 10px 0;
+        }
+
+        .accent-pk { color: var(--pk-main); }
+        .accent-pp { color: var(--pp-main); }
+        .accent-bl { color: var(--bl-main); }
+
+        h2.section-header {
+            font-size: 14px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 3px; color: var(--bl-main); margin: 0 0 10px 0;
+            text-shadow: 0 0 10px rgba(51, 255, 216, 0.5);
+        }
+
+        h3.message-title {
+            font-size: 18px; font-weight: 600; margin: 0 0 5px 0;
+        }
+
+        p.message-body {
+            font-weight: 100; font-size: 14px; color: var(--txt-gray);
+            line-height: 1.6; margin: 0;
+        }
+
+        /* --- GLASSMORPHISM COMPONENTS --- */
+        .glass-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 20px; border: var(--glass-br);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- WISHES GALORE BLOCK --- */
+        .wishes-block { padding: 25px; }
+
+        .chat-bubble {
+            border-left: 2px solid; padding-left: 15px; margin-bottom: 20px;
+            position: relative;
+        }
+
+        .chat-bubble.bl-acc { border-color: var(--bl-main); }
+        .chat-bubble.pk-acc { border-color: var(--pk-main); }
+        .chat-bubble.pp-acc { border-color: var(--pp-main); }
+
+        .chat-bubble .message-title::after {
+            content: ' '; position: absolute; left: -10px; top: 12px;
+            width: 15px; height: 1px; background: currentColor;
+        }
+
+        /* --- MEMORIES GRID --- */
+        .memories-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+            width: 100%; margin: 10px 0;
+        }
+
+        .photo-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: var(--glass-br); border-radius: 15px;
+            overflow: hidden; aspect-ratio: 1 / 1;
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 0.3s; cursor: pointer;
+        }
+
+        .photo-card:hover { transform: scale(1.05); }
+
+        .photo-card img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            margin-top: auto; padding: 20px 0;
+        }
+
+        button.main-btn {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            padding: 40px; border-radius: 30px;
-            text-align: center; border: 1px solid rgba(255, 255, 255, 0.1);
-            position: absolute; animation: fadeIn 0.6s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px; color: var(--txt-white);
+            font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 500;
+            padding: 15px; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: 0.3s;
         }
 
-        .hidden { display: none; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; } }
-
-        .pro-frame {
-            background: white; padding: 10px; margin: 20px auto;
-            width: 200px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        
-        button {
-            background: #ff007f; color: white; border: none;
-            padding: 12px 30px; border-radius: 50px; cursor: pointer; margin-top: 20px;
-        }
+        button.main-btn:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
-    <div class="slide" id="s1">
-        <h1>Hey Sreya...</h1>
-        <p>Turning 19, are we? You're officially old enough to know better, but young enough to keep being a menace. 😉</p>
-        <button onclick="next(2)">Click to continue</button>
+    <div class="phone-frame">
+        <div class="screen-content">
+            <h1 class="main-title">For Sreya's <span class="accent-pk">19th!</span></h1>
+
+            <div class="glass-box wishes-block">
+                <h2 class="section-header">Wishes Galore!</h2>
+
+                <div class="chat-bubble bl-acc">
+                    <h3 class="message-title accent-bl">A Little Tease ;) <span style="font-size:12px;">😒😒</span></h3>
+                    <p class="message-body">Okay, Sreya, you might be 19, but I'm pretty sure you still need adult supervision. Have some class and make this year incredible!</p>
+                </div>
+
+                <div class="chat-bubble pk-acc">
+                    <h3 class="message-title accent-pk">The Real Truth...</h3>
+                    <p class="message-body">You're incredible, and I just wanted to remind you how lucky you are to have a friend like me. You can literally write 1000 lines of CSS (atleast!) to tell you that! 🙂, have some class and keep making me proud.</p>
+                </div>
+
+                <div class="chat-bubble pp-acc">
+                    <h3 class="message-title accent-pp">The Big 19 <span style="font-size:12px;">🤦🤦</span></h3>
+                    <p class="message-body">HAPPY BIRTHDAY! I hope this year brings you all the joy, success, and chaos you deserve. Don't worry, I won't mention any 'ghost modes' or exams... this day is purely for you!</p>
+                </div>
+            </div>
+            <div class="glass-box memories-container" style="padding: 15px 25px;">
+                <h2 class="section-header">Memory Vault</h2>
+                <div class="memories-grid">
+                    <div class="photo-card" onclick="alert('Pic 1 - Sreya is a star!')">
+                        <img src="sreya1.jpg" alt="Sreya 1">
+                    </div>
+                    <div class="photo-card" onclick="alert('Pic 2 - Sreya rules!')">
+                        <img src="sreya2.jpg" alt="Sreya 2">
+                    </div>
+                    <div class="photo-card" onclick="alert('Pic 3 - The birthday girl!')">
+                        <img src="sreya3.jpg" alt="Sreya 3">
+                    </div>
+                </div>
+                <p class="message-body" style="text-align:center; font-style:italic;">Memories: Tap to enlarge!</p>
+            </div>
+
+            <div class="btn-container">
+                <button class="main-btn">Wait, MORE?</button>
+                <button class="main-btn" style="background: linear-gradient(45deg, var(--pk-main), var(--pp-main)); border: none; font-weight: 600;">Final Message!</button>
+            </div>
+        </div>
     </div>
 
-    <div class="slide hidden" id="s2">
-        <h1>The Birthday Truth</h1>
-        <p>I'm heading off-grid for JEE, but I couldn't let your big day pass without a proper digital surprise. You're lucky I'm a tech-wizard.</p>
-        <button onclick="next(3)">See Memories</button>
-    </div>
-
-    <div class="slide hidden" id="s3">
-        <h1>Memory Lane</h1>
-        <div class="pro-frame"><img src="photo1.jpg" width="100%"></div>
-        <p>Proof that we've survived this long.</p>
-        <button onclick="next(4)">Final Message</button>
-    </div>
-
-    <div class="slide hidden" id="s4">
-        <h1>Happy 19th!</h1>
-        <p>Keep shining, Sreya. Don't cause too much trouble while I'm away. I'll be back to celebrate soon!</p>
-    </div>
-
-    <script>
-        function next(id) {
-            document.querySelectorAll('.slide').forEach(s => s.classList.add('hidden'));
-            document.getElementById('s' + id).classList.remove('hidden');
-        }
-    </script>
 </body>
 </html>
