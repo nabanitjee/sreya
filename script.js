@@ -228,3 +228,19 @@ function animate() {
 }
 
 animate();
+// ==========================================
+// FULLSCREEN IMAGE POPUP LOGIC
+// ==========================================
+function openModal(imgSrc) {
+    const modal = document.getElementById('image-modal');
+    const expandedImg = document.getElementById('expanded-img');
+    
+    expandedImg.src = imgSrc; // Sets the high-res image
+    modal.classList.add('active'); // Fades the modal in
+}
+
+function closeModal() {
+    const modal = document.getElementById('image-modal');
+    modal.classList.remove('active'); // Fades the modal out
+}
+
