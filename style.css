@@ -1,19 +1,104 @@
 :root {
-    --pk-accent: #ff9eb5; --pp-accent: #d8b4e2; --cr-accent: #fde2bb;
-    --glass-bg: rgba(20, 20, 30, 0.4); --glass-border: rgba(255, 255, 255, 0.1);
+    --pk-accent: #ff9eb5; /* Pastel Pink */
+    --pp-accent: #d8b4e2; /* Pastel Lavender */
+    --cr-accent: #fde2bb; /* Pastel Cream */
+    --cr-shd: #e3c99f;
+    --pp-shd: #a58cb0;
+    --pk-shd: #c77b8d;
+    --amber-cake: #ffbf00;
+    --amber-glw: #ff007f;
+    
+    --glass-bg: rgba(20, 20, 30, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    
     --font-heading: 'Great Vibes', cursive;
     --font-body: 'Montserrat', sans-serif;
     --font-royal: 'Playfair Display', serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background-color: #090a0f; color: #fff; font-family: var(--font-body); overflow: hidden; }
 
-/* Galaxy */
-.stars, .twinkling { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-.stars { background: #000 url('https://www.transparenttextures.com/patterns/stardust.png') repeat top center; }
-.twinkling { background: transparent url('https://www.transparenttextures.com/patterns/twinkle-twinkle.png') repeat top center; animation: move-twink-back 150s linear infinite; opacity: 0.4; }
-@keyframes move-twink-back { from { background-position: 0 0; } to { background-position: -10000px 5000px; } }
+body { background-color: #030408; color: #fff; font-family: var(--font-body); overflow: hidden; height: 100vh; position: relative; }
+
+/* ========================================= */
+/* --- CINEMATIC GALAXY PARTICLE ENGINE --- */
+/* ========================================= */
+.stars, .twinkling, .comets {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+}
+
+/* Base Star Layer: Static and Blinking */
+.stars {
+    /* Pure code generated star field - no image required! */
+    background: #000 radial-gradient(white 1px, transparent 1.5px);
+    background-size: 50px 50px;
+    background-position: center;
+    opacity: 0.5;
+    animation: galaxyShimmer 10s infinite;
+}
+
+/* Layer 2: Slow Moving Deep Field Stars for Depth */
+.twinkling {
+    background: transparent radial-gradient(white 0.5px, transparent 1px);
+    background-size: 80px 80px;
+    background-position: center;
+    /* Use transform instead of background-position for 60fps on mobile */
+    transform: translateZ(0); 
+    animation: galaxyFloat 150s linear infinite;
+    opacity: 0.8;
+}
+
+/* Layer 3: Rhythmically Blinking Clusters */
+.step-container::before {
+    content: '';
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: transparent radial-gradient(var(--pp-accent) 0.5px, transparent 1.2px);
+    background-size: 110px 110px;
+    animation: twinklingPulse 5s infinite;
+    z-index: 1; pointer-events: none;
+    opacity: 0;
+}
+
+/* Layer 4: Real Cinematic Comets / Shooting Stars ☄️ */
+.comets {
+    z-index: 2;
+}
+
+.comets::after {
+    content: '';
+    position: absolute; top: -100px; left: -100px;
+    width: 2px; height: 2px;
+    background: #fff; border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, -2px 2px 10px #fff;
+    
+    /* Optimized CSS trailing effect */
+    background: linear-gradient(to top right, #fff 0%, transparent 100%);
+    width: 100px; height: 1px;
+    transform: rotate(-45deg);
+    
+    opacity: 0;
+    /* Shooting Star animation triggers randomly over time */
+    animation: shootingStar 12s cubic-bezier(0.1, 1.2, 0.3, 1) infinite;
+    animation-delay: 2s;
+}
+
+/* Comet Animation Keyframes */
+@keyframes shootingStar {
+    0% { transform: translate(100vw, 100vh) rotate(-45deg) scale(0); opacity: 0; }
+    1% { opacity: 1; }
+    4% { transform: translate(-100px, -100px) rotate(-45deg) scale(1); opacity: 0; }
+    100% { transform: translate(-100px, -100px) rotate(-45deg) scale(0); opacity: 0; }
+}
+
+/* Galaxy Movement Keyframes */
+@keyframes galaxyFloat { from { transform: translate(0, 0); } to { transform: translate(-1000px, -1000px); } }
+@keyframes galaxyShimmer { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.7; } }
+@keyframes twinklingPulse { 0%, 100% { opacity: 0; } 25% { opacity: 0.3; } }
+
+/* ========================================= */
+/* --- END GALAXY ENGINE --- */
+/* ========================================= */
 
 /* Audio & UI Controls */
 #audio-control {
@@ -52,6 +137,7 @@ body { background-color: #090a0f; color: #fff; font-family: var(--font-body); ov
     position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
     display: flex; justify-content: center; align-items: center; padding: 20px;
     opacity: 0; visibility: hidden; transition: opacity 0.6s, visibility 0.6s; z-index: 5;
+    will-change: opacity;
 }
 .step-container.active { opacity: 1; visibility: visible; }
 .hidden { display: none !important; }
@@ -59,12 +145,13 @@ body { background-color: #090a0f; color: #fff; font-family: var(--font-body); ov
 .text-center { text-align: center; } .w-100 { width: 100%; } .mt-30 { margin-top: 30px; } .mb-20 { margin-bottom: 20px; }
 
 /* Typography & Buttons */
-.cinematic-title { font-family: var(--font-heading); font-size: 4.5rem; line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 0 15px rgba(255, 158, 181, 0.6); font-weight: 400; }
+.cinematic-title { font-family: var(--font-heading); font-size: 4.5rem; line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 0 15px rgba(255, 158, 181, 0.6); font-weight: 400; position: relative; z-index: 10; }
 .accent-pk { color: var(--pk-accent); } .accent-pp { color: var(--pp-accent); }
 .premium-btn {
     background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 14px 30px; border-radius: 30px; font-family: var(--font-body); font-size: 0.95rem;
     font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative; z-index: 10;
 }
 .premium-btn:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); border-color: var(--pk-accent); }
 
@@ -72,8 +159,8 @@ body { background-color: #090a0f; color: #fff; font-family: var(--font-body); ov
 .glass-panel {
     background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border);
     border-radius: 20px; padding: 30px 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); width: 100%; max-width: 400px;
+    position: relative; z-index: 10;
 }
-/* Replaced Cursive with clear, bold Montserrat */
 .accent-title { font-family: var(--font-body); font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
 .chat-text { color: #e2e8f0; line-height: 1.7; font-size: 0.95rem; font-weight: 300; min-height: 80px;}
 .divider { border: 0; height: 1px; background: var(--glass-border); margin: 20px 0; }
@@ -117,7 +204,7 @@ body { background-color: #090a0f; color: #fff; font-family: var(--font-body); ov
 .polaroid { position: absolute; background: #fff; padding: 10px 10px 30px 10px; border-radius: 6px; width: 170px; height: 210px; transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); }
 .polaroid img { width: 100%; height: 100%; object-fit: cover; background: #222; }
 .pos-1 { transform: rotate(-12deg) translateX(-60px) scale(0.85); z-index: 1; opacity: 0.5; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-.pos-2 { transform: rotate(14deg) translateX(60px) scale(0.85); z-index: 2; opacity: 0.5; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+.pos-2 { transform: rotate(14deg) translateX(70px) scale(0.85); z-index: 2; opacity: 0.5; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
 .pos-3 { transform: rotate(2deg) translateY(-10px) scale(1.05); z-index: 3; opacity: 1; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
 .final-wish { font-family: var(--font-royal); font-size: 2rem; color: #fff; font-weight: 400; font-style: italic; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); z-index: 10; position: relative; }
 #confetti-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
