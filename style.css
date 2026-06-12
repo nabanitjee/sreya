@@ -146,14 +146,34 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 .typing-target::after { content: '|'; animation: blink 1s step-start infinite; color: var(--pk-accent); }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* --- ROYAL LETTER (Lyrics Slide) --- */
+/* --- ROYAL LETTER (Lyrics Slide with Tulip Watermark) --- */
 .royal-letter {
     background: #fdf6e3;
     background-image: linear-gradient(90deg, rgba(0,0,0,0.03) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.03) 100%);
     border: 1px solid #d4af37; border-radius: 4px; padding: 40px 20px 50px 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 40px rgba(139, 69, 19, 0.1);
     position: relative; margin: 0 auto; width: 100%;
+    overflow: hidden; /* Keeps the watermark inside the letter */
 }
+
+/* The Big Tulip Watermark */
+.royal-letter::before {
+    content: '🌷';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12rem; /* Massive size */
+    opacity: 0.06; /* Extremely faded so it doesn't block text */
+    /* Gives it a slightly vintage, sepia tone to match the paper */
+    filter: sepia(100%) hue-rotate(320deg) brightness(0.8);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Keeps the text above the watermark */
+.royal-title, .lyrics-text { position: relative; z-index: 1; }
+
 .royal-title { font-family: var(--font-heading); font-size: 3rem; color: #8b4513; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
 .lyrics-text { font-family: var(--font-royal); font-size: 1.1rem; line-height: 1.7; font-style: italic; color: #4a3b2c; font-weight: 600; }
 .wax-seal {
@@ -276,12 +296,12 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 .pos-3 { transform: rotate(2deg) translateY(-10px) scale(1.05); z-index: 3; opacity: 1; box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 20px rgba(255,0,255,0.3); }
 .final-wish { font-family: var(--font-royal); font-size: 2rem; color: #fff; font-weight: 600; font-style: italic; text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); z-index: 10; position: relative; }
 
-/* --- BULLETPROOF CONFETTI --- */
+/* --- TULIP SHOWER --- */
 #confetti-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
-.confetti-piece { position: absolute; width: 8px; height: 15px; border-radius: 2px; }
-@keyframes fall {
-    0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+.confetti-piece { 
+    position: absolute; 
+    font-size: 1.8rem; /* Size of the tulips */
+    user-select: none;
 }
 
 /* --- FULLSCREEN IMAGE POPUP (MODAL) --- */
