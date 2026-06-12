@@ -17,7 +17,7 @@ window.onload = function() {
 
 function toggleAudio() {
     const btn = document.getElementById('audio-control');
-    arrow.classList.add('hidden'); // Hide arrow once interacted with
+    arrow.classList.add('hidden');
     if (audio.paused) {
         audio.play();
         btn.innerText = '🔊';
@@ -27,7 +27,6 @@ function toggleAudio() {
     }
 }
 
-// Show popup when music finishes 1 cycle
 audio.addEventListener('ended', () => {
     document.getElementById('audio-control').innerText = '🔇';
     replayPopup.classList.remove('hidden');
@@ -113,10 +112,10 @@ function startPhotoShuffle() {
     }, 4000); 
 }
 
-// Fixed Spam-Friendly Confetti Engine
+// Confetti Engine
 function launchConfetti() {
     const container = document.getElementById('confetti-canvas');
-    const colors = ['#ff9eb5', '#d8b4e2', '#fde2bb', '#ffffff'];
+    const colors = ['#ff00ff', '#7b00ff', '#fde2bb', '#ffffff'];
     
     for (let i = 0; i < 70; i++) {
         let conf = document.createElement('div');
@@ -125,21 +124,97 @@ function launchConfetti() {
         conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         conf.style.top = '-10px';
         
-        let duration = Math.random() * 3 + 3; // 3 to 6 seconds fall time
+        let duration = Math.random() * 3 + 3; 
         let delay = Math.random() * 2;
         conf.style.animation = `fall ${duration}s linear ${delay}s forwards`;
         
-        // Remove individual piece exactly when it finishes falling (Fixes disappearing bug)
         conf.addEventListener('animationend', () => conf.remove());
-        
         container.appendChild(conf);
     }
 }
 
-// Inject Keyframes
 if (!document.getElementById('confetti-styles')) {
     const style = document.createElement('style');
     style.id = 'confetti-styles';
     style.innerHTML = `@keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }`;
     document.head.appendChild(style);
 }
+
+// ==========================================
+// THE NEW JAVASCRIPT LIVE PLEXUS BACKGROUND
+// ==========================================
+const canvas = document.getElementById('plexus-network');
+const ctx = canvas.getContext('2d');
+
+let width, height;
+function setSize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+}
+setSize();
+window.addEventListener('resize', setSize);
+
+const particles = [];
+const particleCount = window.innerWidth < 600 ? 40 : 80; // Less dots on mobile for performance
+const maxLineDist = 120;
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 1.5 + 0.5;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.fill();
+    }
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx = -this.vx;
+        if (this.y < 0 || this.y > height) this.vy = -this.vy;
+    }
+}
+
+for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+}
+
+function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i];
+            const p2 = particles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < maxLineDist) {
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                const opacity = 1 - (dist / maxLineDist);
+                // Draws thin connecting lines in neon purple/magenta hue
+                ctx.strokeStyle = `rgba(160, 50, 255, ${opacity * 0.3})`; 
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+    });
+    drawConnections();
+    requestAnimationFrame(animate);
+}
+
+animate();
