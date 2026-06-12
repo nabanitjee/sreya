@@ -18,8 +18,9 @@ html, body {
     background: radial-gradient(circle at center, #101528 0%, #030408 100%) !important;
     color: #ffffff; 
     font-family: var(--font-body); 
-    overflow: hidden; 
-    height: 100vh;
+    overflow-x: hidden; 
+    overflow-y: auto; /* Allows scrolling ONLY if the screen is too small */
+    min-height: 100vh; /* Auto-adjusts to screen height */
     width: 100vw;
 }
 
@@ -93,8 +94,8 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 
 /* Layout */
 .step-container {
-    position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
-    display: flex; justify-content: center; align-items: center; padding: 20px;
+    position: absolute; top: 0; left: 0; width: 100vw; min-height: 100vh;
+    display: flex; justify-content: center; align-items: center; padding: 40px 20px;
     opacity: 0; visibility: hidden; transition: opacity 0.6s, visibility 0.6s; z-index: 5;
 }
 .step-container.active { opacity: 1; visibility: visible; }
@@ -238,3 +239,34 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 .final-wish { font-family: var(--font-royal); font-size: 2rem; color: #fff; font-weight: 600; font-style: italic; text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); z-index: 10; position: relative; }
 #confetti-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 .confetti-piece { position: absolute; width: 10px; height: 10px; background: #fff; opacity: 0; }
+
+/* ========================================= */
+/* --- AUTO-ADJUST FOR SMALLER SCREENS --- */
+/* ========================================= */
+@media screen and (max-height: 800px) {
+    .cinematic-title { font-size: 3.5rem; margin-bottom: 15px; }
+    
+    /* Shrinks the cake perfectly by 20% */
+    .elegant-cake-container { transform: scale(0.8); margin-bottom: 0px; margin-top: -20px; }
+    
+    .premium-btn { padding: 12px 25px; font-size: 0.85rem; margin-top: 10px; }
+    
+    .glass-panel { padding: 20px 15px; }
+    .chat-text { font-size: 0.85rem; line-height: 1.5; min-height: 60px; }
+    
+    /* Shrinks the Royal Letter */
+    .royal-title { font-size: 2.2rem; margin-bottom: 15px; }
+    .lyrics-text { font-size: 0.95rem; line-height: 1.5; }
+    .royal-letter { padding: 25px 15px 35px 15px; }
+    
+    /* Shrinks the Photo Vault */
+    .polaroid-gallery { height: 260px; transform: scale(0.85); }
+    .final-wish { font-size: 1.6rem; }
+}
+
+@media screen and (max-height: 650px) {
+    /* Extreme shrink for very small phones */
+    .elegant-cake-container { transform: scale(0.65); margin-top: -40px; }
+    .cinematic-title { font-size: 2.8rem; }
+    .polaroid-gallery { transform: scale(0.7); }
+}
