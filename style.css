@@ -103,15 +103,37 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 .content-wrapper { z-index: 10; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center;}
 .text-center { text-align: center; } .w-100 { width: 100%; } .mt-30 { margin-top: 30px; } .mb-20 { margin-bottom: 20px; }
 
-/* Typography & Buttons */
+/* Typography, Buttons & BOUNCING POINTER */
 .cinematic-title { font-family: var(--font-heading); font-size: 4.5rem; line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 0 15px rgba(255, 0, 255, 0.6); font-weight: 400; }
 .accent-pk { color: var(--pk-accent); } .accent-pp { color: var(--pp-accent); }
 .premium-btn {
     background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.4);
     padding: 14px 30px; border-radius: 30px; font-family: var(--font-body); font-size: 0.95rem;
     font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    position: relative; /* Needed for the pointer to attach to the button */
 }
 .premium-btn:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); border-color: var(--bl-accent); box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4); }
+
+/* --- THE NEW CLICK HINT POINTER --- */
+.next-btn::before {
+    content: '👇 Click here! 👇';
+    position: absolute;
+    top: -28px; /* Hovers right above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--bl-accent);
+    white-space: nowrap;
+    animation: hintBounce 1s infinite;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    pointer-events: none; /* So it doesn't block the button click */
+}
+@keyframes hintBounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 5px); }
+}
 
 /* Glass Panel Chat */
 .glass-panel {
@@ -167,12 +189,11 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 /* 3D Tiers with Shadows and Highlights */
 .tier { 
     position: relative; display: flex; justify-content: center; align-items: center; 
-    border-radius: 8px 8px 2px 2px; /* Flatter tops like a real cake */
-    /* 3D shadow effects on the edges */
+    border-radius: 8px 8px 2px 2px; 
     box-shadow: inset -15px 0 20px rgba(0,0,0,0.2), inset 15px 0 20px rgba(255,255,255,0.3), 0 5px 15px rgba(0,0,0,0.5); 
 }
 
-/* Scalloped Frosting Drips on every tier */
+/* Scalloped Frosting Drips */
 .tier::before {
     content: ''; position: absolute; top: -2px; left: 0; width: 100%; height: 15px;
     background: radial-gradient(circle at 10px 0, transparent 10px, #ffffff 11px);
@@ -180,11 +201,11 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
     z-index: 10; opacity: 0.95;
 }
 
-/* Gradients for rounded 3D look & Gold Pearl Borders */
+/* Gradients & Gold Pearl Borders */
 .tier-bottom { 
     width: 180px; height: 60px; 
     background: linear-gradient(to right, #dcae73 0%, var(--cr-accent) 40%, #dcae73 100%); 
-    z-index: 3; margin-top: -5px; border-bottom: 5px dotted #d4af37; /* Gold beads */
+    z-index: 3; margin-top: -5px; border-bottom: 5px dotted #d4af37; 
 }
 .tier-middle { 
     width: 140px; height: 55px; 
@@ -246,26 +267,23 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 @media screen and (max-height: 800px) {
     .cinematic-title { font-size: 3.5rem; margin-bottom: 15px; }
     
-    /* Shrinks the cake perfectly by 20% */
     .elegant-cake-container { transform: scale(0.8); margin-bottom: 0px; margin-top: -20px; }
     
-    .premium-btn { padding: 12px 25px; font-size: 0.85rem; margin-top: 10px; }
+    .premium-btn { padding: 12px 25px; font-size: 0.85rem; margin-top: 15px; }
+    .next-btn::before { top: -25px; font-size: 0.7rem; } /* Adjust pointer position for smaller button */
     
     .glass-panel { padding: 20px 15px; }
     .chat-text { font-size: 0.85rem; line-height: 1.5; min-height: 60px; }
     
-    /* Shrinks the Royal Letter */
     .royal-title { font-size: 2.2rem; margin-bottom: 15px; }
     .lyrics-text { font-size: 0.95rem; line-height: 1.5; }
     .royal-letter { padding: 25px 15px 35px 15px; }
     
-    /* Shrinks the Photo Vault */
     .polaroid-gallery { height: 260px; transform: scale(0.85); }
     .final-wish { font-size: 1.6rem; }
 }
 
 @media screen and (max-height: 650px) {
-    /* Extreme shrink for very small phones */
     .elegant-cake-container { transform: scale(0.65); margin-top: -40px; }
     .cinematic-title { font-size: 2.8rem; }
     .polaroid-gallery { transform: scale(0.7); }
