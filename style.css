@@ -1,16 +1,9 @@
 :root {
-    --pk-accent: #ff9eb5; /* Pastel Pink */
-    --pp-accent: #d8b4e2; /* Pastel Lavender */
-    --cr-accent: #fde2bb; /* Pastel Cream */
-    --cr-shd: #e3c99f;
-    --pp-shd: #a58cb0;
-    --pk-shd: #c77b8d;
-    --amber-cake: #ffbf00;
-    --amber-glw: #ff007f;
-    
+    --pk-accent: #ff9eb5; 
+    --pp-accent: #d8b4e2; 
+    --cr-accent: #fde2bb; 
     --glass-bg: rgba(20, 20, 30, 0.4);
     --glass-border: rgba(255, 255, 255, 0.1);
-    
     --font-heading: 'Great Vibes', cursive;
     --font-body: 'Montserrat', sans-serif;
     --font-royal: 'Playfair Display', serif;
@@ -18,89 +11,81 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-body { background-color: #030408; color: #fff; font-family: var(--font-body); overflow: hidden; height: 100vh; position: relative; }
+body { 
+    background-color: #030408; 
+    /* Cinematic Atmospheric Lighting: Deep Teal & Warm Magenta Glows */
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(0, 150, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(255, 0, 127, 0.08) 0%, transparent 40%);
+    color: #fff; font-family: var(--font-body); overflow: hidden; height: 100vh; position: relative; 
+}
 
 /* ========================================= */
-/* --- CINEMATIC GALAXY PARTICLE ENGINE --- */
+/* --- ORGANIC GALAXY PARTICLE ENGINE --- */
 /* ========================================= */
 .stars, .twinkling, .comets {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 0; pointer-events: none;
 }
 
-/* Base Star Layer: Static and Blinking */
+/* Layer 1: Scattered, Organic Base Stars */
 .stars {
-    /* Pure code generated star field - no image required! */
-    background: #000 radial-gradient(white 1px, transparent 1.5px);
-    background-size: 50px 50px;
-    background-position: center;
-    opacity: 0.5;
-    animation: galaxyShimmer 10s infinite;
+    background-image: 
+        radial-gradient(1.5px 1.5px at 20px 30px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 40px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 90px 40px, #ddd, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 130px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #eee, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 190px 10px, #fff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity: 0.6;
 }
 
-/* Layer 2: Slow Moving Deep Field Stars for Depth */
+/* Layer 2: Deeper, Slower Floating Stars */
 .twinkling {
-    background: transparent radial-gradient(white 0.5px, transparent 1px);
-    background-size: 80px 80px;
-    background-position: center;
-    /* Use transform instead of background-position for 60fps on mobile */
+    background-image: 
+        radial-gradient(1.5px 1.5px at 10px 150px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 80px 50px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 140px 180px, #ddd, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 220px 100px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2.5px 2.5px at 280px 240px, #eee, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 300px 300px;
     transform: translateZ(0); 
-    animation: galaxyFloat 150s linear infinite;
+    animation: galaxyFloat 80s linear infinite;
     opacity: 0.8;
 }
 
-/* Layer 3: Rhythmically Blinking Clusters */
-.step-container::before {
-    content: '';
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: transparent radial-gradient(var(--pp-accent) 0.5px, transparent 1.2px);
-    background-size: 110px 110px;
-    animation: twinklingPulse 5s infinite;
-    z-index: 1; pointer-events: none;
-    opacity: 0;
-}
-
-/* Layer 4: Real Cinematic Comets / Shooting Stars ☄️ */
-.comets {
-    z-index: 2;
-}
-
+/* Layer 3: Slow Majestic Comets ☄️ */
+.comets { z-index: 2; }
 .comets::after {
     content: '';
-    position: absolute; top: -100px; left: -100px;
-    width: 2px; height: 2px;
-    background: #fff; border-radius: 50%;
-    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, -2px 2px 10px #fff;
-    
-    /* Optimized CSS trailing effect */
-    background: linear-gradient(to top right, #fff 0%, transparent 100%);
-    width: 100px; height: 1px;
+    position: absolute; top: -50px; right: -50px; /* Starts slightly off-screen top right */
+    width: 200px; /* Much longer visible tail */
+    height: 1.5px;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+    border-radius: 50%;
     transform: rotate(-45deg);
-    
     opacity: 0;
-    /* Shooting Star animation triggers randomly over time */
-    animation: shootingStar 12s cubic-bezier(0.1, 1.2, 0.3, 1) infinite;
-    animation-delay: 2s;
+    /* 18 seconds total: 4 seconds of movement, 14 seconds of waiting */
+    animation: majesticComet 18s linear infinite;
+    animation-delay: 3s;
 }
 
-/* Comet Animation Keyframes */
-@keyframes shootingStar {
-    0% { transform: translate(100vw, 100vh) rotate(-45deg) scale(0); opacity: 0; }
-    1% { opacity: 1; }
-    4% { transform: translate(-100px, -100px) rotate(-45deg) scale(1); opacity: 0; }
-    100% { transform: translate(-100px, -100px) rotate(-45deg) scale(0); opacity: 0; }
+@keyframes majesticComet {
+    0% { transform: translate(0, 0) rotate(-45deg); opacity: 0; }
+    5% { opacity: 1; } /* Fade in smoothly */
+    20% { transform: translate(-120vw, 120vh) rotate(-45deg); opacity: 0; } /* Crosses screen slowly */
+    100% { transform: translate(-120vw, 120vh) rotate(-45deg); opacity: 0; }
 }
 
-/* Galaxy Movement Keyframes */
 @keyframes galaxyFloat { from { transform: translate(0, 0); } to { transform: translate(-1000px, -1000px); } }
-@keyframes galaxyShimmer { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.7; } }
-@keyframes twinklingPulse { 0%, 100% { opacity: 0; } 25% { opacity: 0.3; } }
 
 /* ========================================= */
-/* --- END GALAXY ENGINE --- */
+/* --- UI, AUDIO & TYPOGRAPHY --- */
 /* ========================================= */
 
-/* Audio & UI Controls */
 #audio-control {
     position: fixed; top: 20px; right: 20px; z-index: 100;
     background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
@@ -137,25 +122,33 @@ body { background-color: #030408; color: #fff; font-family: var(--font-body); ov
     position: absolute; top: 0; left: 0; width: 100vw; height: 100vh;
     display: flex; justify-content: center; align-items: center; padding: 20px;
     opacity: 0; visibility: hidden; transition: opacity 0.6s, visibility 0.6s; z-index: 5;
-    will-change: opacity;
 }
 .step-container.active { opacity: 1; visibility: visible; }
 .hidden { display: none !important; }
-.content-wrapper { z-index: 10; width: 100%; max-width: 400px; }
+.content-wrapper { z-index: 10; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
 .text-center { text-align: center; } .w-100 { width: 100%; } .mt-30 { margin-top: 30px; } .mb-20 { margin-bottom: 20px; }
 
-/* Typography & Buttons */
-.cinematic-title { font-family: var(--font-heading); font-size: 4.5rem; line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 0 15px rgba(255, 158, 181, 0.6); font-weight: 400; position: relative; z-index: 10; }
+/* Enhanced Front Page Typography */
+.cinematic-title { 
+    font-family: var(--font-heading); 
+    font-size: 4.2rem; /* Scaled slightly for better proportions */
+    line-height: 1.1; 
+    margin-bottom: 30px; 
+    color: #fff; 
+    text-shadow: 0 0 20px rgba(255, 158, 181, 0.7); 
+    font-weight: 400; 
+    position: relative; z-index: 10; 
+}
 .accent-pk { color: var(--pk-accent); } .accent-pp { color: var(--pp-accent); }
 .premium-btn {
     background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 14px 30px; border-radius: 30px; font-family: var(--font-body); font-size: 0.95rem;
     font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative; z-index: 10;
+    position: relative; z-index: 10; margin-top: 40px;
 }
 .premium-btn:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); border-color: var(--pk-accent); }
 
-/* Glass Panel (Clearer Font Update) */
+/* Glass Panel Chat */
 .glass-panel {
     background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border);
     border-radius: 20px; padding: 30px 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); width: 100%; max-width: 400px;
@@ -184,15 +177,30 @@ body { background-color: #030408; color: #fff; font-family: var(--font-body); ov
     color: #d4af37; font-family: var(--font-heading); font-size: 30px; border: 2px solid #5a0000;
 }
 
-/* Cake */
-.elegant-cake-container { width: 100%; height: 260px; display: flex; justify-content: center; align-items: flex-end; position: relative; margin-bottom: 20px; z-index: 10; animation: gentleFloat 4s ease-in-out infinite; }
+/* ========================================= */
+/* --- CAKE UPGRADES & AURA GLOW --- */
+/* ========================================= */
+.elegant-cake-container { 
+    width: 100%; height: 260px; display: flex; justify-content: center; align-items: flex-end; 
+    position: relative; margin-bottom: 20px; z-index: 10; 
+    animation: gentleFloat 4s ease-in-out infinite; 
+}
+/* Beautiful ambient glow behind the cake */
+.elegant-cake-container::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 158, 181, 0.15) 0%, transparent 60%);
+    z-index: 0; filter: blur(20px); pointer-events: none;
+}
 @keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.cake-3d { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 15px; }
+
+.cake-3d { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 15px; z-index: 2; }
 .tier { border-radius: 12px 12px 4px 4px; position: relative; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 -5px 15px rgba(0,0,0,0.15), 0 5px 10px rgba(0,0,0,0.3); }
 .tier-bottom { width: 180px; height: 60px; background: var(--cr-accent); z-index: 3; margin-top: -10px; }
 .tier-middle { width: 140px; height: 55px; background: var(--pk-accent); z-index: 4; margin-top: -10px; border-bottom: 4px solid rgba(0,0,0,0.05); }
 .tier-top { width: 100px; height: 50px; background: var(--pp-accent); z-index: 5; }
 .cake-text { font-family: var(--font-heading); font-size: 2.2rem; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); transform: translateY(-2px); }
+
 .candle-19 { position: absolute; top: -55px; z-index: 10; font-family: var(--font-body); font-weight: 600; font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px #ffbf00, 0 0 20px #ff007f; display: flex; flex-direction: column; align-items: center; }
 .flame { width: 12px; height: 18px; background: #ffbf00; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ff007f; margin-bottom: 2px; animation: flicker 0.1s infinite alternate; }
 @keyframes flicker { 0% { transform: rotate(-1deg) scale(1); } 100% { transform: rotate(1deg) scale(1.1); } }
