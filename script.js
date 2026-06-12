@@ -1,354 +1,260 @@
-:root {
-    --pk-accent: #ff00ff; /* Neon Magenta */
-    --pp-accent: #7b00ff; /* Neon Purple */
-    --bl-accent: #00ffff; /* Neon Cyan */
-    --cr-accent: #fde2bb; 
-    --glass-bg: rgba(10, 10, 20, 0.65); /* Darker glass for contrast */
-    --glass-border: rgba(255, 255, 255, 0.15);
-    --font-heading: 'Great Vibes', cursive;
-    --font-body: 'Montserrat', sans-serif;
-    --font-royal: 'Playfair Display', serif;
+let shuffleInterval;
+let positions = ['pos-1', 'pos-2', 'pos-3'];
+const audio = document.getElementById('bg-music');
+const arrow = document.getElementById('audio-arrow');
+const replayPopup = document.getElementById('replay-popup');
+
+// Audio Logic & Arrow Handling
+window.onload = function() {
+    audio.play().then(() => {
+        arrow.innerHTML = 'Click to mute <span>➔</span>';
+        arrow.classList.remove('hidden');
+    }).catch(e => {
+        arrow.innerHTML = 'Click to play music <span>➔</span>';
+        arrow.classList.remove('hidden');
+    });
+};
+
+function toggleAudio() {
+    const btn = document.getElementById('audio-control');
+    arrow.classList.add('hidden');
+    if (audio.paused) {
+        audio.play();
+        btn.innerText = '🔊';
+    } else {
+        audio.pause();
+        btn.innerText = '🔇';
+    }
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+audio.addEventListener('ended', () => {
+    document.getElementById('audio-control').innerText = '🔇';
+    replayPopup.classList.remove('hidden');
+});
 
-html, body { 
-    /* Forced Deep Space Background */
-    background-color: #030408 !important;
-    background: radial-gradient(circle at center, #101528 0%, #030408 100%) !important;
-    color: #ffffff; 
-    font-family: var(--font-body); 
-    overflow-x: hidden; 
-    overflow-y: auto; /* Allows scrolling ONLY if the screen is too small */
-    min-height: 100vh; /* Auto-adjusts to screen height */
-    width: 100vw;
+function playAudioAgain() {
+    audio.currentTime = 0;
+    audio.play();
+    document.getElementById('audio-control').innerText = '🔊';
+    replayPopup.classList.add('hidden');
 }
 
-/* Background Atmospheric Glows */
-body::before, body::after {
-    content: ""; position: absolute; width: 600px; height: 600px;
-    border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(150px); opacity: 0.15;
-}
-body::before { background: radial-gradient(circle, var(--pp-accent) 0%, transparent 70%); top: -100px; left: -100px; }
-body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transparent 70%); bottom: -100px; right: -100px; }
+// Navigation Logic
+function goToStep(stepNumber) {
+    if (audio.paused && document.getElementById('audio-control').innerText === '🔊') {
+        audio.play().catch(e => console.log("Audio play failed"));
+        arrow.classList.add('hidden');
+    }
 
-/* The Live Plexus Network */
-#plexus-network {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 1; pointer-events: none;
-}
+    document.querySelectorAll('.step-container').forEach(step => {
+        step.classList.remove('active');
+        setTimeout(() => step.classList.add('hidden'), 600);
+    });
 
-/* Template-Style Comets */
-.tech-comets {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 2; pointer-events: none;
-}
-.tech-comets::before, .tech-comets::after {
-    content: ''; position: absolute; width: 3px; height: 3px; background: #fff; border-radius: 50%;
-    box-shadow: 0 0 10px #fff, 0 0 20px #fff;
-    background: linear-gradient(to top right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
-    width: 150px; height: 1.5px; transform: rotate(-45deg); opacity: 0;
-}
-.tech-comets::before { animation: techComet 10s linear infinite; animation-delay: 1s; }
-.tech-comets::after { animation: techComet 14s linear infinite; animation-delay: 5s; }
+    if (stepNumber === 2) {
+        document.getElementById('btn2').classList.add('hidden');
 
-@keyframes techComet {
-    0% { transform: translate(120vw, -20vh) rotate(-45deg); opacity: 0; }
-    10% { opacity: 1; }
-    30% { transform: translate(-20vw, 120vh) rotate(-45deg); opacity: 0; }
-    100% { transform: translate(-20vw, 120vh) rotate(-45deg); opacity: 0; }
-}
+        setTimeout(() => {
+            let typingCompleted = 0;
+            const checkDone = () => {
+                typingCompleted++;
+                if (typingCompleted === 2) {
+                    document.getElementById('btn2').classList.remove('hidden');
+                }
+            };
+            typeWriter('source1', 'type1', checkDone);
+            typeWriter('source2', 'type2', checkDone);
+        }, 800);
+    }
 
-/* Audio & UI Controls */
-#audio-control {
-    position: fixed; top: 20px; right: 20px; z-index: 100;
-    background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
-    border-radius: 50%; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;
-    font-size: 20px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: transform 0.3s;
-    color: #fff;
-}
-#audio-arrow {
-    position: fixed; top: 32px; right: 75px; z-index: 100;
-    color: var(--bl-accent); font-family: var(--font-body); font-size: 0.85rem; font-weight: 600;
-    display: flex; align-items: center; gap: 8px; text-shadow: 0 0 10px rgba(0,0,0,0.8);
-    animation: bounceLeft 1s infinite;
-}
-@keyframes bounceLeft { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-8px); } }
+    if (stepNumber === 4) {
+        setTimeout(launchConfetti, 300);
+        startPhotoShuffle();
+    } else {
+        if(shuffleInterval) clearInterval(shuffleInterval);
+    }
 
-#replay-popup {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000;
-    background: linear-gradient(135deg, var(--pk-accent), var(--pp-accent)); color: #fff;
-    padding: 12px 25px; border-radius: 30px; font-weight: 600; font-size: 0.9rem;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.6); cursor: pointer; animation: slideDown 0.5s ease;
-}
-@keyframes slideDown { from { top: -50px; opacity: 0; } to { top: 20px; opacity: 1; } }
-
-.back-btn {
-    position: absolute; top: 20px; left: 20px; z-index: 100;
-    background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2); color: #fff;
-    padding: 8px 16px; border-radius: 20px; font-family: var(--font-body);
-    font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.3s;
-}
-.back-btn:hover { background: rgba(255, 255, 255, 0.25); transform: translateX(-3px); }
-
-/* Layout */
-.step-container {
-    position: absolute; top: 0; left: 0; width: 100vw; min-height: 100vh;
-    display: flex; justify-content: center; align-items: center; padding: 40px 20px;
-    opacity: 0; visibility: hidden; transition: opacity 0.6s, visibility 0.6s; z-index: 5;
-}
-.step-container.active { opacity: 1; visibility: visible; }
-.hidden { display: none !important; }
-.content-wrapper { z-index: 10; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center;}
-.text-center { text-align: center; } .w-100 { width: 100%; } .mt-30 { margin-top: 30px; } .mb-20 { margin-bottom: 20px; }
-
-/* Typography, Buttons & BOUNCING POINTER */
-.cinematic-title { font-family: var(--font-heading); font-size: 4.5rem; line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 0 15px rgba(255, 0, 255, 0.6); font-weight: 400; }
-.accent-pk { color: var(--pk-accent); } .accent-pp { color: var(--pp-accent); }
-.premium-btn {
-    background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 14px 30px; border-radius: 30px; font-family: var(--font-body); font-size: 0.95rem;
-    font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    position: relative; /* Needed for the pointer to attach to the button */
-}
-.premium-btn:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); border-color: var(--bl-accent); box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4); }
-
-/* --- THE NEW CLICK HINT POINTER --- */
-.next-btn::before {
-    content: '👇 Click here! 👇';
-    position: absolute;
-    top: -28px; /* Hovers right above the button */
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--bl-accent);
-    white-space: nowrap;
-    animation: hintBounce 1s infinite;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-    pointer-events: none; /* So it doesn't block the button click */
-}
-@keyframes hintBounce {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 5px); }
+    setTimeout(() => {
+        const nextStep = document.getElementById('step' + stepNumber);
+        nextStep.classList.remove('hidden');
+        setTimeout(() => nextStep.classList.add('active'), 50);
+    }, 600);
 }
 
-/* Glass Panel Chat */
-.glass-panel {
-    background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border);
-    border-radius: 20px; padding: 30px 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); width: 100%; max-width: 400px;
-}
-.accent-title { font-family: var(--font-body); font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; color: #fff; }
-.chat-text { color: #e2e8f0; line-height: 1.7; font-size: 0.95rem; font-weight: 400; min-height: 80px;}
-.divider { border: 0; height: 1px; background: var(--glass-border); margin: 20px 0; }
-.typing-target::after { content: '|'; animation: blink 1s step-start infinite; color: var(--pk-accent); }
-@keyframes blink { 50% { opacity: 0; } }
+// Bulletproof Live Typing
+function typeWriter(sourceId, targetId, callback) {
+    const text = document.getElementById(sourceId).innerHTML;
+    const target = document.getElementById(targetId);
 
-/* --- ROYAL LETTER (Lyrics Slide with Tulip Watermark) --- */
-.royal-letter {
-    background: #fdf6e3;
-    background-image: linear-gradient(90deg, rgba(0,0,0,0.03) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.03) 100%);
-    border: 1px solid #d4af37; border-radius: 4px; padding: 40px 20px 50px 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 40px rgba(139, 69, 19, 0.1);
-    position: relative; margin: 0 auto; width: 100%;
-    overflow: hidden; /* Keeps the watermark inside the letter */
-}
+    if (target.typingTimer) {
+        clearTimeout(target.typingTimer);
+    }
 
-/* The Big Tulip Watermark */
-.royal-letter::before {
-    content: '🌷';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 12rem; /* Massive size */
-    opacity: 0.06; /* Extremely faded so it doesn't block text */
-    /* Gives it a slightly vintage, sepia tone to match the paper */
-    filter: sepia(100%) hue-rotate(320deg) brightness(0.8);
-    pointer-events: none;
-    z-index: 0;
+    target.innerHTML = ''; 
+    target.classList.add('typing-target'); 
+    let i = 0;
+
+    function type() {
+        if (i < text.length) {
+            target.innerHTML += text.charAt(i);
+            i++;
+            target.typingTimer = setTimeout(type, 35);
+        } else {
+            target.classList.remove('typing-target'); 
+            if (callback) callback();
+        }
+    }
+    type();
 }
 
-/* Keeps the text above the watermark */
-.royal-title, .lyrics-text { position: relative; z-index: 1; }
+// Photo Shuffle
+function startPhotoShuffle() {
+    const photos = document.querySelectorAll('.polaroid');
+    if (shuffleInterval) clearInterval(shuffleInterval);
 
-.royal-title { font-family: var(--font-heading); font-size: 3rem; color: #8b4513; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-.lyrics-text { font-family: var(--font-royal); font-size: 1.1rem; line-height: 1.7; font-style: italic; color: #4a3b2c; font-weight: 600; }
-.wax-seal {
-    position: absolute; bottom: -25px; right: 30px; width: 60px; height: 60px;
-    background: #8b0000; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.5), inset 0 0 10px #4a0000;
-    display: flex; justify-content: center; align-items: center;
-    color: #d4af37; font-family: var(--font-heading); font-size: 30px; border: 2px solid #5a0000;
+    shuffleInterval = setInterval(() => {
+        positions.unshift(positions.pop()); 
+        photos.forEach((photo, index) => {
+            photo.className = 'polaroid ' + positions[index];
+        });
+    }, 4000); 
 }
 
-/* ========================================= */
-/* --- UPGRADED 3D REALISTIC CAKE --- */
-/* ========================================= */
-.elegant-cake-container { 
-    width: 100%; height: 260px; display: flex; justify-content: center; align-items: flex-end; 
-    position: relative; margin-bottom: 20px; z-index: 10; 
-    animation: gentleFloat 4s ease-in-out infinite; 
+// Upgraded Multi-Colored Tulip Engine
+function launchConfetti() {
+    const container = document.getElementById('confetti-canvas');
+    
+    // 50 tulips is the sweet spot so it doesn't crowd the screen
+    for (let i = 0; i < 50; i++) {
+        let conf = document.createElement('div');
+        conf.classList.add('confetti-piece');
+        conf.innerText = '🌷'; 
+        
+        // Random horizontal start
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.top = '-40px'; 
+
+        // CSS Magic: Shifts the color of the emoji to create yellow, blue, purple, etc.
+        let hueShift = Math.floor(Math.random() * 360);
+        conf.style.filter = `hue-rotate(${hueShift}deg)`;
+
+        // Randomize the spin direction (clockwise or counter-clockwise)
+        let spinDirection = Math.random() > 0.5 ? 1 : -1;
+        conf.style.setProperty('--spin', spinDirection);
+
+        let duration = Math.random() * 4 + 4; // Slightly slower, floatier fall for flowers
+        let delay = Math.random() * 2;
+        
+        conf.style.animation = `flowerFall ${duration}s linear ${delay}s forwards`;
+
+        conf.addEventListener('animationend', () => conf.remove());
+        container.appendChild(conf);
+    }
 }
 
-/* Atmospheric Glow Behind Cake */
-.elegant-cake-container::before {
-    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 250px; height: 250px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 0, 255, 0.15) 0%, transparent 60%);
-    z-index: 0; filter: blur(20px); pointer-events: none;
-}
-@keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-.cake-3d { 
-    position: relative; display: flex; flex-direction: column; align-items: center; 
-    justify-content: flex-end; padding-bottom: 12px; z-index: 2; 
-}
-
-/* 3D Tiers with Shadows and Highlights */
-.tier { 
-    position: relative; display: flex; justify-content: center; align-items: center; 
-    border-radius: 8px 8px 2px 2px; 
-    box-shadow: inset -15px 0 20px rgba(0,0,0,0.2), inset 15px 0 20px rgba(255,255,255,0.3), 0 5px 15px rgba(0,0,0,0.5); 
+// Inject the custom tumbling keyframes
+if (!document.getElementById('confetti-styles')) {
+    const style = document.createElement('style');
+    style.id = 'confetti-styles';
+    style.innerHTML = `
+    @keyframes flowerFall { 
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; } 
+        /* Uses the --spin variable to tumble left or right */
+        100% { transform: translateY(110vh) rotate(calc(720deg * var(--spin))); opacity: 0; } 
+    }`;
+    document.head.appendChild(style);
 }
 
-/* Scalloped Frosting Drips */
-.tier::before {
-    content: ''; position: absolute; top: -2px; left: 0; width: 100%; height: 15px;
-    background: radial-gradient(circle at 10px 0, transparent 10px, #ffffff 11px);
-    background-size: 20px 15px; background-repeat: repeat-x;
-    z-index: 10; opacity: 0.95;
+// ==========================================
+// THE NEW JAVASCRIPT LIVE PLEXUS BACKGROUND
+// ==========================================
+const canvas = document.getElementById('plexus-network');
+const ctx = canvas.getContext('2d');
+
+let width, height;
+function setSize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+}
+setSize();
+window.addEventListener('resize', setSize);
+
+const particles = [];
+const particleCount = window.innerWidth < 600 ? 40 : 80; 
+const maxLineDist = 120;
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 1.5 + 0.5;
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.8)'; 
+        ctx.fill();
+    }
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx = -this.vx;
+        if (this.y < 0 || this.y > height) this.vy = -this.vy;
+    }
 }
 
-/* Gradients & Gold Pearl Borders */
-.tier-bottom { 
-    width: 180px; height: 60px; 
-    background: linear-gradient(to right, #dcae73 0%, var(--cr-accent) 40%, #dcae73 100%); 
-    z-index: 3; margin-top: -5px; border-bottom: 5px dotted #d4af37; 
-}
-.tier-middle { 
-    width: 140px; height: 55px; 
-    background: linear-gradient(to right, #d13084 0%, #ff66b2 40%, #d13084 100%); 
-    z-index: 4; margin-top: -5px; border-bottom: 4px dotted #d4af37; 
-}
-.tier-top { 
-    width: 100px; height: 50px; 
-    background: linear-gradient(to right, #6d1eb8 0%, #b266ff 40%, #6d1eb8 100%); 
-    z-index: 5; border-bottom: 4px dotted #d4af37; 
+for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
 }
 
-.cake-text { 
-    font-family: var(--font-heading); font-size: 2.2rem; color: #fff; 
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); transform: translateY(-2px); z-index: 15; 
+function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i];
+            const p2 = particles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < maxLineDist) {
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                const opacity = 1 - (dist / maxLineDist);
+                ctx.strokeStyle = `rgba(255, 0, 255, ${opacity * 0.5})`; 
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+    }
 }
 
-/* Glowing Gold 19 Candle */
-.candle-19 { 
-    position: absolute; top: -55px; z-index: 10; 
-    font-family: var(--font-body); font-weight: 700; font-size: 2.5rem; color: #ffd700; 
-    text-shadow: 2px 2px 0px #b8860b, 0 0 15px rgba(255, 215, 0, 0.8); 
-    display: flex; flex-direction: column; align-items: center; 
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+    });
+    drawConnections();
+    requestAnimationFrame(animate);
 }
 
-.flame { 
-    width: 12px; height: 18px; background: #ffbf00; border-radius: 50% 50% 20% 20%; 
-    box-shadow: 0 0 15px #ffbf00, 0 0 30px #ff007f; margin-bottom: 2px; 
-    animation: flicker 0.1s infinite alternate; 
-}
-@keyframes flicker { 0% { transform: rotate(-2deg) scale(1); } 100% { transform: rotate(2deg) scale(1.1); } }
+animate();
 
-/* Metallic 3D Cake Stand */
-.cake-plate { 
-    position: absolute; bottom: 4px; width: 220px; height: 12px; 
-    background: linear-gradient(to bottom, #eee, #999); border-radius: 50%; 
-    box-shadow: 0 8px 15px rgba(0,0,0,0.7); z-index: 2; 
-}
-.cake-base { 
-    position: absolute; bottom: -8px; width: 90px; height: 18px; 
-    background: linear-gradient(to right, #444, #777, #444); border-radius: 5px 5px 50% 50%; 
-    z-index: 1; box-shadow: inset 0 -3px 8px rgba(0,0,0,0.8); 
+// ==========================================
+// FULLSCREEN IMAGE POPUP LOGIC
+// ==========================================
+function openModal(imgSrc) {
+    const modal = document.getElementById('image-modal');
+    const expandedImg = document.getElementById('expanded-img');
+
+    expandedImg.src = imgSrc; 
+    modal.classList.add('active'); 
 }
 
-/* Memory Vault */
-.polaroid-gallery { position: relative; height: 320px; width: 100%; display: flex; justify-content: center; align-items: center; z-index: 1; }
-
-/* DECORATED NEON DARK-GLASS FRAMES */
-.polaroid { 
-    position: absolute; 
-    background: rgba(20, 20, 35, 0.85); /* Dark translucent background */
-    backdrop-filter: blur(10px);
-    padding: 12px 12px 35px 12px; 
-    border-radius: 12px; 
-    border: 1px solid rgba(255, 0, 255, 0.4); /* Neon Magenta Edge */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 20px rgba(0, 255, 255, 0.15); /* Inner cyan glow */
-    width: 170px; height: 210px; 
-    transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); 
-    cursor: pointer; 
-}
-.polaroid img { 
-    width: 100%; height: 100%; object-fit: cover; background: #222; 
-    border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);
-}
-
-.pos-1 { transform: rotate(-12deg) translateX(-60px) scale(0.85); z-index: 1; opacity: 0.7; }
-.pos-2 { transform: rotate(14deg) translateX(60px) scale(0.85); z-index: 2; opacity: 0.7; }
-.pos-3 { transform: rotate(2deg) translateY(-10px) scale(1.05); z-index: 3; opacity: 1; box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 20px rgba(255,0,255,0.3); }
-.final-wish { font-family: var(--font-royal); font-size: 2rem; color: #fff; font-weight: 600; font-style: italic; text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); z-index: 10; position: relative; }
-
-/* --- TULIP SHOWER --- */
-#confetti-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
-.confetti-piece { 
-    position: absolute; 
-    font-size: 1.8rem; /* Size of the tulips */
-    user-select: none;
-}
-
-/* --- FULLSCREEN IMAGE POPUP (MODAL) --- */
-#image-modal {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
-    z-index: 9999; display: flex; justify-content: center; align-items: center;
-    opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-#image-modal.active { opacity: 1; visibility: visible; }
-.modal-content {
-    max-width: 90%; max-height: 80vh; border-radius: 15px;
-    box-shadow: 0 0 30px var(--pk-accent), 0 0 60px var(--pp-accent);
-    border: 2px solid rgba(255,255,255,0.3);
-    transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-#image-modal.active .modal-content { transform: scale(1); }
-.close-modal {
-    position: absolute; top: 25px; right: 35px; color: #fff; text-shadow: 0 0 10px #ff00ff;
-    font-size: 45px; font-weight: bold; cursor: pointer; transition: 0.3s;
-}
-.close-modal:hover { color: var(--pk-accent); transform: scale(1.2); }
-
-/* ========================================= */
-/* --- AUTO-ADJUST FOR SMALLER SCREENS --- */
-/* ========================================= */
-@media screen and (max-height: 800px) {
-    .cinematic-title { font-size: 3.5rem; margin-bottom: 15px; }
-
-    .elegant-cake-container { transform: scale(0.8); margin-bottom: 0px; margin-top: -20px; }
-
-    .premium-btn { padding: 12px 25px; font-size: 0.85rem; margin-top: 15px; }
-    .next-btn::before { top: -25px; font-size: 0.7rem; } 
-
-    .glass-panel { padding: 20px 15px; }
-    .chat-text { font-size: 0.85rem; line-height: 1.5; min-height: 60px; }
-
-    .royal-title { font-size: 2.2rem; margin-bottom: 15px; }
-    .lyrics-text { font-size: 0.95rem; line-height: 1.5; }
-    .royal-letter { padding: 25px 15px 35px 15px; }
-
-    .polaroid-gallery { height: 260px; transform: scale(0.85); }
-    .final-wish { font-size: 1.6rem; }
-}
-
-@media screen and (max-height: 650px) {
-    .elegant-cake-container { transform: scale(0.65); margin-top: -40px; }
-    .cinematic-title { font-size: 2.8rem; }
-    .polaroid-gallery { transform: scale(0.7); }
+function closeModal() {
+    const modal = document.getElementById('image-modal');
+    modal.classList.remove('active'); 
 }
