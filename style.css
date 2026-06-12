@@ -1,91 +1,57 @@
 :root {
-    --pk-accent: #ff9eb5; 
-    --pp-accent: #d8b4e2; 
+    --pk-accent: #ff00ff; /* Shifted to Neon Magenta */
+    --pp-accent: #7b00ff; /* Shifted to Neon Purple */
     --cr-accent: #fde2bb; 
-    --glass-bg: rgba(20, 20, 30, 0.4);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(20, 20, 40, 0.5); /* Darker glass for contrast */
+    --glass-border: rgba(255, 255, 255, 0.15);
     --font-heading: 'Great Vibes', cursive;
     --font-body: 'Montserrat', sans-serif;
     --font-royal: 'Playfair Display', serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body { 
-    background-color: #030408; 
-    /* Cinematic Atmospheric Lighting: Deep Teal & Warm Magenta Glows */
-    background-image: 
-        radial-gradient(circle at 15% 20%, rgba(0, 150, 255, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 80%, rgba(255, 0, 127, 0.08) 0%, transparent 40%);
-    color: #fff; font-family: var(--font-body); overflow: hidden; height: 100vh; position: relative; 
+    /* The deep space template background */
+    background: radial-gradient(circle at center, #1b2755 0%, #0a0e23 100%);
+    color: #fff; font-family: var(--font-body); overflow: hidden; 
 }
 
-/* ========================================= */
-/* --- ORGANIC GALAXY PARTICLE ENGINE --- */
-/* ========================================= */
-.stars, .twinkling, .comets {
+/* Background Atmospheric Glows */
+body::before, body::after {
+    content: ""; position: absolute; width: 600px; height: 600px;
+    border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(150px); opacity: 0.15;
+}
+body::before { background: radial-gradient(circle, var(--pp-accent) 0%, transparent 70%); top: -100px; left: -100px; }
+body::after { background: radial-gradient(circle, var(--pk-accent) 0%, transparent 70%); bottom: -100px; right: -100px; }
+
+/* The Live Plexus Network */
+#plexus-network {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 0; pointer-events: none;
+    z-index: 1; pointer-events: none;
 }
 
-/* Layer 1: Scattered, Organic Base Stars */
-.stars {
-    background-image: 
-        radial-gradient(1.5px 1.5px at 20px 30px, #fff, rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 40px 70px, #fff, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 90px 40px, #ddd, rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 130px 80px, #fff, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 160px 120px, #eee, rgba(0,0,0,0)),
-        radial-gradient(1px 1px at 190px 10px, #fff, rgba(0,0,0,0));
-    background-repeat: repeat;
-    background-size: 200px 200px;
-    opacity: 0.6;
+/* Template-Style Comets */
+.tech-comets {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2; pointer-events: none;
+}
+.tech-comets::before, .tech-comets::after {
+    content: ''; position: absolute; width: 3px; height: 3px; background: #fff; border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+    background: linear-gradient(to top right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    width: 150px; height: 1.5px; transform: rotate(-45deg); opacity: 0;
+}
+.tech-comets::before { animation: techComet 10s linear infinite; animation-delay: 1s; }
+.tech-comets::after { animation: techComet 14s linear infinite; animation-delay: 5s; }
+
+@keyframes techComet {
+    0% { transform: translate(120vw, -20vh) rotate(-45deg); opacity: 0; }
+    10% { opacity: 1; }
+    30% { transform: translate(-20vw, 120vh) rotate(-45deg); opacity: 0; }
+    100% { transform: translate(-20vw, 120vh) rotate(-45deg); opacity: 0; }
 }
 
-/* Layer 2: Deeper, Slower Floating Stars */
-.twinkling {
-    background-image: 
-        radial-gradient(1.5px 1.5px at 10px 150px, #fff, rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 80px 50px, #fff, rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 140px 180px, #ddd, rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 220px 100px, #fff, rgba(0,0,0,0)),
-        radial-gradient(2.5px 2.5px at 280px 240px, #eee, rgba(0,0,0,0));
-    background-repeat: repeat;
-    background-size: 300px 300px;
-    transform: translateZ(0); 
-    animation: galaxyFloat 80s linear infinite;
-    opacity: 0.8;
-}
-
-/* Layer 3: Slow Majestic Comets ☄️ */
-.comets { z-index: 2; }
-.comets::after {
-    content: '';
-    position: absolute; top: -50px; right: -50px; /* Starts slightly off-screen top right */
-    width: 200px; /* Much longer visible tail */
-    height: 1.5px;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-    border-radius: 50%;
-    transform: rotate(-45deg);
-    opacity: 0;
-    /* 18 seconds total: 4 seconds of movement, 14 seconds of waiting */
-    animation: majesticComet 18s linear infinite;
-    animation-delay: 3s;
-}
-
-@keyframes majesticComet {
-    0% { transform: translate(0, 0) rotate(-45deg); opacity: 0; }
-    5% { opacity: 1; } /* Fade in smoothly */
-    20% { transform: translate(-120vw, 120vh) rotate(-45deg); opacity: 0; } /* Crosses screen slowly */
-    100% { transform: translate(-120vw, 120vh) rotate(-45deg); opacity: 0; }
-}
-
-@keyframes galaxyFloat { from { transform: translate(0, 0); } to { transform: translate(-1000px, -1000px); } }
-
-/* ========================================= */
-/* --- UI, AUDIO & TYPOGRAPHY --- */
-/* ========================================= */
-
+/* Audio & UI Controls */
 #audio-control {
     position: fixed; top: 20px; right: 20px; z-index: 100;
     background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
@@ -125,26 +91,16 @@ body {
 }
 .step-container.active { opacity: 1; visibility: visible; }
 .hidden { display: none !important; }
-.content-wrapper { z-index: 10; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+.content-wrapper { z-index: 10; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center;}
 .text-center { text-align: center; } .w-100 { width: 100%; } .mt-30 { margin-top: 30px; } .mb-20 { margin-bottom: 20px; }
 
-/* Enhanced Front Page Typography */
-.cinematic-title { 
-    font-family: var(--font-heading); 
-    font-size: 4.2rem; /* Scaled slightly for better proportions */
-    line-height: 1.1; 
-    margin-bottom: 30px; 
-    color: #fff; 
-    text-shadow: 0 0 20px rgba(255, 158, 181, 0.7); 
-    font-weight: 400; 
-    position: relative; z-index: 10; 
-}
+/* Typography & Buttons */
+.cinematic-title { font-family: var(--font-heading); font-size: 4.5rem; line-height: 1.2; margin-bottom: 20px; color: #fff; text-shadow: 0 0 15px rgba(255, 0, 255, 0.6); font-weight: 400; }
 .accent-pk { color: var(--pk-accent); } .accent-pp { color: var(--pp-accent); }
 .premium-btn {
     background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3);
     padding: 14px 30px; border-radius: 30px; font-family: var(--font-body); font-size: 0.95rem;
     font-weight: 600; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative; z-index: 10; margin-top: 40px;
 }
 .premium-btn:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); border-color: var(--pk-accent); }
 
@@ -152,7 +108,6 @@ body {
 .glass-panel {
     background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--glass-border);
     border-radius: 20px; padding: 30px 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.7); width: 100%; max-width: 400px;
-    position: relative; z-index: 10;
 }
 .accent-title { font-family: var(--font-body); font-size: 1.6rem; font-weight: 700; margin-bottom: 10px; }
 .chat-text { color: #e2e8f0; line-height: 1.7; font-size: 0.95rem; font-weight: 300; min-height: 80px;}
@@ -177,30 +132,15 @@ body {
     color: #d4af37; font-family: var(--font-heading); font-size: 30px; border: 2px solid #5a0000;
 }
 
-/* ========================================= */
-/* --- CAKE UPGRADES & AURA GLOW --- */
-/* ========================================= */
-.elegant-cake-container { 
-    width: 100%; height: 260px; display: flex; justify-content: center; align-items: flex-end; 
-    position: relative; margin-bottom: 20px; z-index: 10; 
-    animation: gentleFloat 4s ease-in-out infinite; 
-}
-/* Beautiful ambient glow behind the cake */
-.elegant-cake-container::before {
-    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 250px; height: 250px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 158, 181, 0.15) 0%, transparent 60%);
-    z-index: 0; filter: blur(20px); pointer-events: none;
-}
+/* Cake */
+.elegant-cake-container { width: 100%; height: 260px; display: flex; justify-content: center; align-items: flex-end; position: relative; margin-bottom: 20px; z-index: 10; animation: gentleFloat 4s ease-in-out infinite; }
 @keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-.cake-3d { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 15px; z-index: 2; }
+.cake-3d { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 15px; }
 .tier { border-radius: 12px 12px 4px 4px; position: relative; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 -5px 15px rgba(0,0,0,0.15), 0 5px 10px rgba(0,0,0,0.3); }
 .tier-bottom { width: 180px; height: 60px; background: var(--cr-accent); z-index: 3; margin-top: -10px; }
-.tier-middle { width: 140px; height: 55px; background: var(--pk-accent); z-index: 4; margin-top: -10px; border-bottom: 4px solid rgba(0,0,0,0.05); }
-.tier-top { width: 100px; height: 50px; background: var(--pp-accent); z-index: 5; }
+.tier-middle { width: 140px; height: 55px; background: #ff66b2; z-index: 4; margin-top: -10px; border-bottom: 4px solid rgba(0,0,0,0.05); }
+.tier-top { width: 100px; height: 50px; background: #b266ff; z-index: 5; }
 .cake-text { font-family: var(--font-heading); font-size: 2.2rem; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); transform: translateY(-2px); }
-
 .candle-19 { position: absolute; top: -55px; z-index: 10; font-family: var(--font-body); font-weight: 600; font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px #ffbf00, 0 0 20px #ff007f; display: flex; flex-direction: column; align-items: center; }
 .flame { width: 12px; height: 18px; background: #ffbf00; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ff007f; margin-bottom: 2px; animation: flicker 0.1s infinite alternate; }
 @keyframes flicker { 0% { transform: rotate(-1deg) scale(1); } 100% { transform: rotate(1deg) scale(1.1); } }
@@ -212,7 +152,7 @@ body {
 .polaroid { position: absolute; background: #fff; padding: 10px 10px 30px 10px; border-radius: 6px; width: 170px; height: 210px; transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); }
 .polaroid img { width: 100%; height: 100%; object-fit: cover; background: #222; }
 .pos-1 { transform: rotate(-12deg) translateX(-60px) scale(0.85); z-index: 1; opacity: 0.5; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-.pos-2 { transform: rotate(14deg) translateX(70px) scale(0.85); z-index: 2; opacity: 0.5; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+.pos-2 { transform: rotate(14deg) translateX(60px) scale(0.85); z-index: 2; opacity: 0.5; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
 .pos-3 { transform: rotate(2deg) translateY(-10px) scale(1.05); z-index: 3; opacity: 1; box-shadow: 0 25px 50px rgba(0,0,0,0.8); }
 .final-wish { font-family: var(--font-royal); font-size: 2rem; color: #fff; font-weight: 400; font-style: italic; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); z-index: 10; position: relative; }
 #confetti-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
