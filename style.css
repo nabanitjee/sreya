@@ -140,20 +140,93 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
     color: #d4af37; font-family: var(--font-heading); font-size: 30px; border: 2px solid #5a0000;
 }
 
-/* Cake */
-.elegant-cake-container { width: 100%; height: 260px; display: flex; justify-content: center; align-items: flex-end; position: relative; margin-bottom: 20px; z-index: 10; animation: gentleFloat 4s ease-in-out infinite; }
+/* ========================================= */
+/* --- UPGRADED 3D REALISTIC CAKE --- */
+/* ========================================= */
+.elegant-cake-container { 
+    width: 100%; height: 260px; display: flex; justify-content: center; align-items: flex-end; 
+    position: relative; margin-bottom: 20px; z-index: 10; 
+    animation: gentleFloat 4s ease-in-out infinite; 
+}
+
+/* Atmospheric Glow Behind Cake */
+.elegant-cake-container::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 0, 255, 0.15) 0%, transparent 60%);
+    z-index: 0; filter: blur(20px); pointer-events: none;
+}
 @keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.cake-3d { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 15px; }
-.tier { border-radius: 12px 12px 4px 4px; position: relative; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 -5px 15px rgba(0,0,0,0.15), 0 5px 10px rgba(0,0,0,0.5); }
-.tier-bottom { width: 180px; height: 60px; background: var(--cr-accent); z-index: 3; margin-top: -10px; }
-.tier-middle { width: 140px; height: 55px; background: #ff66b2; z-index: 4; margin-top: -10px; border-bottom: 4px solid rgba(0,0,0,0.05); }
-.tier-top { width: 100px; height: 50px; background: #b266ff; z-index: 5; }
-.cake-text { font-family: var(--font-heading); font-size: 2.2rem; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); transform: translateY(-2px); }
-.candle-19 { position: absolute; top: -55px; z-index: 10; font-family: var(--font-body); font-weight: 600; font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px #ffbf00, 0 0 20px #ff007f; display: flex; flex-direction: column; align-items: center; }
-.flame { width: 12px; height: 18px; background: #ffbf00; border-radius: 50% 50% 20% 20%; box-shadow: 0 0 15px #ffbf00, 0 0 30px #ff007f; margin-bottom: 2px; animation: flicker 0.1s infinite alternate; }
-@keyframes flicker { 0% { transform: rotate(-1deg) scale(1); } 100% { transform: rotate(1deg) scale(1.1); } }
-.cake-plate { position: absolute; bottom: 5px; width: 220px; height: 15px; background: #ddd; border-radius: 50%; box-shadow: 0 5px 10px rgba(0,0,0,0.5); z-index: 2; }
-.cake-base { position: absolute; bottom: -5px; width: 100px; height: 15px; background: #999; border-radius: 10px 10px 50% 50%; z-index: 1; }
+
+.cake-3d { 
+    position: relative; display: flex; flex-direction: column; align-items: center; 
+    justify-content: flex-end; padding-bottom: 12px; z-index: 2; 
+}
+
+/* 3D Tiers with Shadows and Highlights */
+.tier { 
+    position: relative; display: flex; justify-content: center; align-items: center; 
+    border-radius: 8px 8px 2px 2px; /* Flatter tops like a real cake */
+    /* 3D shadow effects on the edges */
+    box-shadow: inset -15px 0 20px rgba(0,0,0,0.2), inset 15px 0 20px rgba(255,255,255,0.3), 0 5px 15px rgba(0,0,0,0.5); 
+}
+
+/* Scalloped Frosting Drips on every tier */
+.tier::before {
+    content: ''; position: absolute; top: -2px; left: 0; width: 100%; height: 15px;
+    background: radial-gradient(circle at 10px 0, transparent 10px, #ffffff 11px);
+    background-size: 20px 15px; background-repeat: repeat-x;
+    z-index: 10; opacity: 0.95;
+}
+
+/* Gradients for rounded 3D look & Gold Pearl Borders */
+.tier-bottom { 
+    width: 180px; height: 60px; 
+    background: linear-gradient(to right, #dcae73 0%, var(--cr-accent) 40%, #dcae73 100%); 
+    z-index: 3; margin-top: -5px; border-bottom: 5px dotted #d4af37; /* Gold beads */
+}
+.tier-middle { 
+    width: 140px; height: 55px; 
+    background: linear-gradient(to right, #d13084 0%, #ff66b2 40%, #d13084 100%); 
+    z-index: 4; margin-top: -5px; border-bottom: 4px dotted #d4af37; 
+}
+.tier-top { 
+    width: 100px; height: 50px; 
+    background: linear-gradient(to right, #6d1eb8 0%, #b266ff 40%, #6d1eb8 100%); 
+    z-index: 5; border-bottom: 4px dotted #d4af37; 
+}
+
+.cake-text { 
+    font-family: var(--font-heading); font-size: 2.2rem; color: #fff; 
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); transform: translateY(-2px); z-index: 15; 
+}
+
+/* Glowing Gold 19 Candle */
+.candle-19 { 
+    position: absolute; top: -55px; z-index: 10; 
+    font-family: var(--font-body); font-weight: 700; font-size: 2.5rem; color: #ffd700; 
+    text-shadow: 2px 2px 0px #b8860b, 0 0 15px rgba(255, 215, 0, 0.8); 
+    display: flex; flex-direction: column; align-items: center; 
+}
+
+.flame { 
+    width: 12px; height: 18px; background: #ffbf00; border-radius: 50% 50% 20% 20%; 
+    box-shadow: 0 0 15px #ffbf00, 0 0 30px #ff007f; margin-bottom: 2px; 
+    animation: flicker 0.1s infinite alternate; 
+}
+@keyframes flicker { 0% { transform: rotate(-2deg) scale(1); } 100% { transform: rotate(2deg) scale(1.1); } }
+
+/* Metallic 3D Cake Stand */
+.cake-plate { 
+    position: absolute; bottom: 4px; width: 220px; height: 12px; 
+    background: linear-gradient(to bottom, #eee, #999); border-radius: 50%; 
+    box-shadow: 0 8px 15px rgba(0,0,0,0.7); z-index: 2; 
+}
+.cake-base { 
+    position: absolute; bottom: -8px; width: 90px; height: 18px; 
+    background: linear-gradient(to right, #444, #777, #444); border-radius: 5px 5px 50% 50%; 
+    z-index: 1; box-shadow: inset 0 -3px 8px rgba(0,0,0,0.8); 
+}
 
 /* Memory Vault */
 .polaroid-gallery { position: relative; height: 320px; width: 100%; display: flex; justify-content: center; align-items: center; z-index: 1; }
