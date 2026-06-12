@@ -52,9 +52,8 @@ function goToStep(stepNumber) {
     });
 
     if (stepNumber === 2) {
-        // Hide the button if they are re-visiting this step
         document.getElementById('btn2').classList.add('hidden');
-        
+
         setTimeout(() => {
             let typingCompleted = 0;
             const checkDone = () => {
@@ -67,7 +66,7 @@ function goToStep(stepNumber) {
             typeWriter('source2', 'type2', checkDone);
         }, 800);
     }
-    
+
     if (stepNumber === 4) {
         setTimeout(launchConfetti, 300);
         startPhotoShuffle();
@@ -82,25 +81,23 @@ function goToStep(stepNumber) {
     }, 600);
 }
 
-// FIX: Bulletproof Live Typing
+// Bulletproof Live Typing
 function typeWriter(sourceId, targetId, callback) {
     const text = document.getElementById(sourceId).innerHTML;
     const target = document.getElementById(targetId);
-    
-    // Crucial Fix: Kill any existing typing timer on this specific text box
+
     if (target.typingTimer) {
         clearTimeout(target.typingTimer);
     }
-    
+
     target.innerHTML = ''; 
-    target.classList.add('typing-target'); // Ensure the blinking cursor is back
+    target.classList.add('typing-target'); 
     let i = 0;
-    
+
     function type() {
         if (i < text.length) {
             target.innerHTML += text.charAt(i);
             i++;
-            // Save the timer ID to the element so we can kill it later if needed
             target.typingTimer = setTimeout(type, 35);
         } else {
             target.classList.remove('typing-target'); 
@@ -114,7 +111,7 @@ function typeWriter(sourceId, targetId, callback) {
 function startPhotoShuffle() {
     const photos = document.querySelectorAll('.polaroid');
     if (shuffleInterval) clearInterval(shuffleInterval);
-    
+
     shuffleInterval = setInterval(() => {
         positions.unshift(positions.pop()); 
         photos.forEach((photo, index) => {
@@ -123,32 +120,25 @@ function startPhotoShuffle() {
     }, 4000); 
 }
 
-// Confetti Engine
+// Upgraded Confetti Engine
 function launchConfetti() {
     const container = document.getElementById('confetti-canvas');
     const colors = ['#ff00ff', '#00ffff', '#fde2bb', '#ffffff'];
-    
+
     for (let i = 0; i < 70; i++) {
         let conf = document.createElement('div');
         conf.classList.add('confetti-piece');
         conf.style.left = Math.random() * 100 + 'vw';
         conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        conf.style.top = '-10px';
-        
+        conf.style.top = '-20px'; // Starts above the screen
+
         let duration = Math.random() * 3 + 3; 
         let delay = Math.random() * 2;
         conf.style.animation = `fall ${duration}s linear ${delay}s forwards`;
-        
+
         conf.addEventListener('animationend', () => conf.remove());
         container.appendChild(conf);
     }
-}
-
-if (!document.getElementById('confetti-styles')) {
-    const style = document.createElement('style');
-    style.id = 'confetti-styles';
-    style.innerHTML = `@keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }`;
-    document.head.appendChild(style);
 }
 
 // ==========================================
@@ -228,19 +218,19 @@ function animate() {
 }
 
 animate();
+
 // ==========================================
 // FULLSCREEN IMAGE POPUP LOGIC
 // ==========================================
 function openModal(imgSrc) {
     const modal = document.getElementById('image-modal');
     const expandedImg = document.getElementById('expanded-img');
-    
-    expandedImg.src = imgSrc; // Sets the high-res image
-    modal.classList.add('active'); // Fades the modal in
+
+    expandedImg.src = imgSrc; 
+    modal.classList.add('active'); 
 }
 
 function closeModal() {
     const modal = document.getElementById('image-modal');
-    modal.classList.remove('active'); // Fades the modal out
+    modal.classList.remove('active'); 
 }
-
