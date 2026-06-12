@@ -115,7 +115,7 @@ function startPhotoShuffle() {
 // Confetti Engine
 function launchConfetti() {
     const container = document.getElementById('confetti-canvas');
-    const colors = ['#ff00ff', '#7b00ff', '#fde2bb', '#ffffff'];
+    const colors = ['#ff00ff', '#00ffff', '#fde2bb', '#ffffff'];
     
     for (let i = 0; i < 70; i++) {
         let conf = document.createElement('div');
@@ -155,7 +155,7 @@ setSize();
 window.addEventListener('resize', setSize);
 
 const particles = [];
-const particleCount = window.innerWidth < 600 ? 40 : 80; // Less dots on mobile for performance
+const particleCount = window.innerWidth < 600 ? 40 : 80; 
 const maxLineDist = 120;
 
 class Particle {
@@ -169,7 +169,7 @@ class Particle {
     draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.8)'; // Neon Cyan Dots
         ctx.fill();
     }
     update() {
@@ -198,9 +198,8 @@ function drawConnections() {
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
                 const opacity = 1 - (dist / maxLineDist);
-                // Draws thin connecting lines in neon purple/magenta hue
-                ctx.strokeStyle = `rgba(160, 50, 255, ${opacity * 0.3})`; 
-                ctx.lineWidth = 0.8;
+                ctx.strokeStyle = `rgba(255, 0, 255, ${opacity * 0.5})`; // Bright Neon Magenta Lines
+                ctx.lineWidth = 1;
                 ctx.stroke();
             }
         }
