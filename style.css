@@ -252,14 +252,56 @@ body::after { background: radial-gradient(circle, var(--bl-accent) 0%, transpare
 
 /* Memory Vault */
 .polaroid-gallery { position: relative; height: 320px; width: 100%; display: flex; justify-content: center; align-items: center; z-index: 1; }
-.polaroid { position: absolute; background: #fff; padding: 10px 10px 30px 10px; border-radius: 6px; width: 170px; height: 210px; transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); }
-.polaroid img { width: 100%; height: 100%; object-fit: cover; background: #222; }
-.pos-1 { transform: rotate(-12deg) translateX(-60px) scale(0.85); z-index: 1; opacity: 0.7; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
-.pos-2 { transform: rotate(14deg) translateX(60px) scale(0.85); z-index: 2; opacity: 0.7; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
-.pos-3 { transform: rotate(2deg) translateY(-10px) scale(1.05); z-index: 3; opacity: 1; box-shadow: 0 25px 50px rgba(0,0,0,0.9); }
+
+/* DECORATED NEON DARK-GLASS FRAMES */
+.polaroid { 
+    position: absolute; 
+    background: rgba(20, 20, 35, 0.85); /* Dark translucent background */
+    backdrop-filter: blur(10px);
+    padding: 12px 12px 35px 12px; 
+    border-radius: 12px; 
+    border: 1px solid rgba(255, 0, 255, 0.4); /* Neon Magenta Edge */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 0 20px rgba(0, 255, 255, 0.15); /* Inner cyan glow */
+    width: 170px; height: 210px; 
+    transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); 
+    cursor: pointer; /* Shows the finger pointer so she knows to click */
+}
+.polaroid img { 
+    width: 100%; height: 100%; object-fit: cover; background: #222; 
+    border-radius: 6px; border: 1px solid rgba(255,255,255,0.15);
+}
+/* Glowing sparkle pin at the bottom of the photo */
+.polaroid::after {
+    content: '✨'; position: absolute; bottom: 5px; left: 50%;
+    transform: translateX(-50%); font-size: 1.2rem; filter: drop-shadow(0 0 5px #ff00ff);
+}
+
+.pos-1 { transform: rotate(-12deg) translateX(-60px) scale(0.85); z-index: 1; opacity: 0.7; }
+.pos-2 { transform: rotate(14deg) translateX(60px) scale(0.85); z-index: 2; opacity: 0.7; }
+.pos-3 { transform: rotate(2deg) translateY(-10px) scale(1.05); z-index: 3; opacity: 1; box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 20px rgba(255,0,255,0.3); }
 .final-wish { font-family: var(--font-royal); font-size: 2rem; color: #fff; font-weight: 600; font-style: italic; text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); z-index: 10; position: relative; }
-#confetti-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-.confetti-piece { position: absolute; width: 10px; height: 10px; background: #fff; opacity: 0; }
+
+/* --- FULLSCREEN IMAGE POPUP (MODAL) --- */
+#image-modal {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+#image-modal.active { opacity: 1; visibility: visible; }
+.modal-content {
+    max-width: 90%; max-height: 80vh; border-radius: 15px;
+    box-shadow: 0 0 30px var(--pk-accent), 0 0 60px var(--pp-accent);
+    border: 2px solid rgba(255,255,255,0.3);
+    transform: scale(0.8); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+#image-modal.active .modal-content { transform: scale(1); }
+.close-modal {
+    position: absolute; top: 25px; right: 35px; color: #fff; text-shadow: 0 0 10px #ff00ff;
+    font-size: 45px; font-weight: bold; cursor: pointer; transition: 0.3s;
+}
+.close-modal:hover { color: var(--pk-accent); transform: scale(1.2); }
+
 
 /* ========================================= */
 /* --- AUTO-ADJUST FOR SMALLER SCREENS --- */
