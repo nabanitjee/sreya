@@ -52,6 +52,9 @@ function goToStep(stepNumber) {
     });
 
     if (stepNumber === 2) {
+        // Hide the button if they are re-visiting this step
+        document.getElementById('btn2').classList.add('hidden');
+        
         setTimeout(() => {
             let typingCompleted = 0;
             const checkDone = () => {
@@ -79,18 +82,26 @@ function goToStep(stepNumber) {
     }, 600);
 }
 
-// Live Typing
+// FIX: Bulletproof Live Typing
 function typeWriter(sourceId, targetId, callback) {
     const text = document.getElementById(sourceId).innerHTML;
     const target = document.getElementById(targetId);
+    
+    // Crucial Fix: Kill any existing typing timer on this specific text box
+    if (target.typingTimer) {
+        clearTimeout(target.typingTimer);
+    }
+    
     target.innerHTML = ''; 
+    target.classList.add('typing-target'); // Ensure the blinking cursor is back
     let i = 0;
     
     function type() {
         if (i < text.length) {
             target.innerHTML += text.charAt(i);
             i++;
-            setTimeout(type, 35);
+            // Save the timer ID to the element so we can kill it later if needed
+            target.typingTimer = setTimeout(type, 35);
         } else {
             target.classList.remove('typing-target'); 
             if (callback) callback();
@@ -169,7 +180,7 @@ class Particle {
     draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 255, 255, 0.8)'; // Neon Cyan Dots
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.8)'; 
         ctx.fill();
     }
     update() {
@@ -198,7 +209,7 @@ function drawConnections() {
                 ctx.moveTo(p1.x, p1.y);
                 ctx.lineTo(p2.x, p2.y);
                 const opacity = 1 - (dist / maxLineDist);
-                ctx.strokeStyle = `rgba(255, 0, 255, ${opacity * 0.5})`; // Bright Neon Magenta Lines
+                ctx.strokeStyle = `rgba(255, 0, 255, ${opacity * 0.5})`; 
                 ctx.lineWidth = 1;
                 ctx.stroke();
             }
